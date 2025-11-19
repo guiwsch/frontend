@@ -19,7 +19,7 @@ const Header = () => {
       <header className={styles.header}>
         <nav className={styles.nav}>
           <Link to="/" className={styles.logo}>
-            Imobi<span className={styles.logoAccent}>Lux</span>
+            Junior<span className={styles.logoAccent}> Corretor</span>
           </Link>
           <div
             className={`${styles.navLinks} ${
