@@ -1,0 +1,40 @@
+.dashboardContainer {
+  padding: 0;
+}
+
+.title {
+  font-size: 32px;
+  color: #003366;
+  margin-bottom: 32px;
+}
+
+.card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.iconGreen {
+  font-size: 48px;
+  color: #00b894;
+}
+
+.iconBlue {
+  font-size: 48px;
+  color: #0984e3;
+}
+
+.iconGold {
+  font-size: 48px;
+  color: #d4af37;
+}
+
+.iconOrange {
+  font-size: 48px;
+  color: #fdcb6e;
+}

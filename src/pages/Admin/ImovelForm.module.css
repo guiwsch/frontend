@@ -1,0 +1,68 @@
+.formContainer {
+  padding: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 32px;
+  color: #003366;
+  margin: 0;
+}
+
+.formCard {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+  font-size: 20px;
+  color: #003366;
+  margin-top: 24px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.sectionTitle:first-of-type {
+  margin-top: 0;
+}
+
+.submitContainer {
+  margin-top: 32px;
+  margin-bottom: 0;
+  text-align: right;
+}
+
+.submitButton {
+  background-color: #d4af37;
+  border-color: #d4af37;
+  font-weight: 600;
+  min-width: 200px;
+}
+
+.submitButton:hover {
+  background-color: #c09a2a;
+  border-color: #c09a2a;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .submitContainer {
+    text-align: center;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
+}

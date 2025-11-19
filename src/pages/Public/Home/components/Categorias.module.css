@@ -1,0 +1,78 @@
+.categoriasContainer {
+  padding: 4rem 2rem;
+  background-color: white;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #1a2332;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.categoryCard {
+  position: relative;
+  height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: white;
+}
+
+.categoryCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(26, 35, 50, 0.6), rgba(26, 35, 50, 0.6));
+  z-index: 1;
+}
+
+.categoryCard:hover {
+  transform: scale(1.05);
+}
+
+.categoryContent {
+  text-align: center;
+  color: white;
+  z-index: 2;
+  position: relative;
+}
+
+.categoryIcon {
+  font-size: 48px;
+  margin-bottom: 1rem;
+  color: #60a5fa;
+}
+
+.categoryTitle {
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.categoryDescription {
+  font-size: 1rem;
+  opacity: 0.9;
+}

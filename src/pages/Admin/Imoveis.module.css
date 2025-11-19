@@ -1,0 +1,47 @@
+.imoveisContainer {
+  padding: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.title {
+  font-size: 32px;
+  color: #003366;
+  margin: 0;
+}
+
+.addButton {
+  background-color: #d4af37;
+  border-color: #d4af37;
+  font-weight: 600;
+}
+
+.addButton:hover {
+  background-color: #c09a2a;
+  border-color: #c09a2a;
+}
+
+.table {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .addButton {
+    width: 100%;
+  }
+}
