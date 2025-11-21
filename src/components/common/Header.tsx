@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
-import styles from "./Header.module.css";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { MenuOutlined, CloseOutlined } from '@ant-design/icons';
+import styles from './Header.module.css';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,18 +30,18 @@ const Header = () => {
               Início
             </Link>
             <Link
-              to="/imoveis?tipo_negocio=venda"
-              className={styles.navLink}
-              onClick={closeMenu}
-            >
-              Comprar
-            </Link>
-            <Link
               to="/imoveis?tipo_negocio=aluguel"
               className={styles.navLink}
               onClick={closeMenu}
             >
               Alugar
+            </Link>
+            <Link
+              to="/imoveis?tipo_negocio=venda"
+              className={styles.navLink}
+              onClick={closeMenu}
+            >
+              Comprar
             </Link>
             <Link to="/sobre" className={styles.navLink} onClick={closeMenu}>
               Sobre
@@ -56,7 +56,7 @@ const Header = () => {
         </nav>
       </header>
       <div
-        className={`${styles.overlay} ${isMenuOpen ? styles.open : ""}`}
+        className={`${styles.overlay} ${isMenuOpen ? styles.open : ''}`}
         onClick={closeMenu}
       />
     </>

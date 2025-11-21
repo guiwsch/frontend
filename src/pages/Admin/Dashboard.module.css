@@ -38,3 +38,35 @@
   font-size: 48px;
   color: #fdcb6e;
 }
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .card {
+    border-radius: 8px;
+  }
+
+  .iconGreen,
+  .iconBlue,
+  .iconGold,
+  .iconOrange {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .iconGreen,
+  .iconBlue,
+  .iconGold,
+  .iconOrange {
+    font-size: 32px;
+  }
+}

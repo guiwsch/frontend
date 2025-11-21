@@ -1,9 +1,10 @@
-import { Typography, Form, Input, Select, InputNumber, Button, Row, Col, Card, message } from 'antd';
-import { SaveOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { Typography, Form, Input, Select, InputNumber, Button, Row, Col, Card, message, Upload, Checkbox } from 'antd';
+import { SaveOutlined, ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useImovel } from '../../context/ImovelContext';
 import styles from './ImovelForm.module.css';
+import type { UploadFile } from 'antd/es/upload/interface';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -19,6 +20,10 @@ interface ImovelFormValues {
   quartos: number;
   banheiros: number;
   vagas: number;
+  piscina: boolean;
+  aceita_pets: boolean;
+  mobiliado: boolean;
+  destaque: boolean;
   endereco: {
     rua: string;
     numero: string;
@@ -35,6 +40,36 @@ const ImovelForm = () => {
   const [form] = Form.useForm<ImovelFormValues>();
   const { createImovel } = useImovel();
   const [loading, setLoading] = useState(false);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  const uploadImages = async (imovelId: number) => {
+    const token = localStorage.getItem('access_token');
+
+    for (let i = 0; i < fileList.length; i++) {
+      const file = fileList[i];
+      const formData = new FormData();
+      formData.append('file', file.originFileObj as Blob);
+      formData.append('ordem', i.toString());
+      formData.append('principal', (i === 0).toString());
+
+      try {
+        const response = await fetch(`http://localhost:8000/api/imoveis/${imovelId}/upload_imagem/`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          body: formData
+        });
+
+        if (!response.ok) {
+          throw new Error(`Erro ao fazer upload da imagem ${i + 1}`);
+        }
+      } catch (error) {
+        console.error(`Erro ao fazer upload da imagem ${i + 1}:`, error);
+        throw error;
+      }
+    }
+  };
 
   const onFinish = async (values: ImovelFormValues) => {
     console.log('Form values:', values);
@@ -60,15 +95,23 @@ const ImovelForm = () => {
         cidade: values.endereco.cidade,
         estado: values.endereco.estado,
         cep: values.endereco.cep,
-        piscina: false,
-        aceita_pets: false,
-        mobiliado: false,
-        destaque: false
+        piscina: values.piscina || false,
+        aceita_pets: values.aceita_pets || false,
+        mobiliado: values.mobiliado || false,
+        destaque: values.destaque || false
       };
 
       console.log('Dados enviados para API:', imovelData);
-      await createImovel(imovelData);
-      message.success('Imóvel criado com sucesso!');
+      const novoImovel = await createImovel(imovelData);
+
+      // Fazer upload das imagens se houver
+      if (fileList.length > 0 && novoImovel?.id) {
+        await uploadImages(novoImovel.id);
+        message.success('Imóvel criado com sucesso e imagens enviadas!');
+      } else {
+        message.success('Imóvel criado com sucesso!');
+      }
+
       navigate('/admin/imoveis');
     } catch (error) {
       console.error('Erro ao criar imóvel:', error);
@@ -200,6 +243,68 @@ const ImovelForm = () => {
                 rules={[{ required: true, message: 'Insira as vagas' }]}
               >
                 <InputNumber style={{ width: '100%' }} min={0} />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Title level={3} className={styles.sectionTitle}>Características Adicionais</Title>
+          <Row gutter={16}>
+            <Col xs={12} md={6}>
+              <Form.Item
+                name="piscina"
+                valuePropName="checked"
+              >
+                <Checkbox>Piscina</Checkbox>
+              </Form.Item>
+            </Col>
+            <Col xs={12} md={6}>
+              <Form.Item
+                name="aceita_pets"
+                valuePropName="checked"
+              >
+                <Checkbox>Aceita Pets</Checkbox>
+              </Form.Item>
+            </Col>
+            <Col xs={12} md={6}>
+              <Form.Item
+                name="mobiliado"
+                valuePropName="checked"
+              >
+                <Checkbox>Mobiliado</Checkbox>
+              </Form.Item>
+            </Col>
+            <Col xs={12} md={6}>
+              <Form.Item
+                name="destaque"
+                valuePropName="checked"
+              >
+                <Checkbox>Destacar Imóvel</Checkbox>
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Title level={3} className={styles.sectionTitle}>Imagens</Title>
+          <Row gutter={16}>
+            <Col xs={24}>
+              <Form.Item
+                label="Fotos do Imóvel"
+                extra="A primeira imagem será a foto principal"
+              >
+                <Upload
+                  listType="picture-card"
+                  fileList={fileList}
+                  onChange={({ fileList: newFileList }) => setFileList(newFileList)}
+                  beforeUpload={() => false}
+                  multiple
+                  accept="image/*"
+                >
+                  {fileList.length >= 8 ? null : (
+                    <div>
+                      <PlusOutlined />
+                      <div style={{ marginTop: 8 }}>Upload</div>
+                    </div>
+                  )}
+                </Upload>
               </Form.Item>
             </Col>
           </Row>

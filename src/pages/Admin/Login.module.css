@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #003366 0%, #004080 100%);
+  padding: 20px;
 }
 
 .loginBox {
@@ -60,4 +61,52 @@
 .submitButton:hover {
   background-color: #c09a2a;
   border-color: #c09a2a;
+}
+
+@media (max-width: 768px) {
+  .loginContainer {
+    padding: 16px;
+  }
+
+  .loginBox {
+    padding: 32px 24px;
+    border-radius: 8px;
+  }
+
+  .logo {
+    font-size: 28px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .form {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loginContainer {
+    padding: 12px;
+  }
+
+  .loginBox {
+    padding: 24px 20px;
+  }
+
+  .logo {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .form {
+    gap: 16px;
+  }
 }

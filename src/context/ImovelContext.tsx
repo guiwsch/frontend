@@ -47,13 +47,16 @@ export const ImovelProvider = ({ children }: ImovelProviderProps) => {
     ordering: '-criado_em'
   });
 
-  const fetchImoveis = useCallback(async (page = 1) => {
+  const fetchImoveis = useCallback(async (page = 1, filtrosCustom?: Partial<Filtros>) => {
     setLoading(true);
     try {
       const params = new URLSearchParams();
       params.append('page', page.toString());
 
-      Object.entries(filtros).forEach(([key, value]) => {
+      // Usa filtrosCustom se fornecido, senão usa o estado filtros
+      const filtrosParaUsar = filtrosCustom ? { ...filtros, ...filtrosCustom } : filtros;
+
+      Object.entries(filtrosParaUsar).forEach(([key, value]) => {
         if (value !== '' && value !== false) {
           if (key === 'preco_min') {
             params.append('preco_venda__gte', value.toString());
@@ -168,11 +171,23 @@ export const ImovelProvider = ({ children }: ImovelProviderProps) => {
     }
   };
 
-  const updateFiltros = (novosFiltros: Partial<Filtros>) => {
-    setFiltros(prev => ({ ...prev, ...novosFiltros }));
+  const toggleDestaque = async (id: number) => {
+    try {
+      const response = await api.patch<Imovel>(`/api/imoveis/${id}/toggle_destaque/`);
+      toast.success(response.data.destaque ? 'Imóvel destacado com sucesso!' : 'Destaque removido com sucesso!');
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao alternar destaque:', error);
+      toast.error('Erro ao alternar destaque do imóvel');
+      throw error;
+    }
   };
 
-  const limparFiltros = () => {
+  const updateFiltros = useCallback((novosFiltros: Partial<Filtros>) => {
+    setFiltros(prev => ({ ...prev, ...novosFiltros }));
+  }, []);
+
+  const limparFiltros = useCallback(() => {
     setFiltros({
       tipo_negocio: '',
       tipo_imovel: '',
@@ -191,7 +206,7 @@ export const ImovelProvider = ({ children }: ImovelProviderProps) => {
       search: '',
       ordering: '-criado_em'
     });
-  };
+  }, []);
 
   const value: ImovelContextType = {
     imoveis,
@@ -207,6 +222,7 @@ export const ImovelProvider = ({ children }: ImovelProviderProps) => {
     updateImovel,
     deleteImovel,
     uploadImagem,
+    toggleDestaque,
     updateFiltros,
     limparFiltros
   };

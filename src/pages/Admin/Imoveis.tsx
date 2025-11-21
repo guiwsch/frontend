@@ -1,26 +1,64 @@
-import { Typography, Button, Table, Space } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Typography, Button, Table, Space, Modal, message, Tag } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined, StarOutlined, StarFilled } from '@ant-design/icons';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useImovel } from '../../context/ImovelContext';
 import styles from './Imoveis.module.css';
 
 const { Title } = Typography;
+const { confirm } = Modal;
 
 interface Imovel {
-  id: string;
-  codigo: string;
+  id: number;
   titulo: string;
-  tipo: string;
+  tipo_imovel: string;
+  tipo_negocio: string;
   cidade: string;
   preco: number;
-  status: string;
+  destaque: boolean;
+  imagem_principal?: string;
 }
 
 const ImoveisAdmin = () => {
+  const navigate = useNavigate();
+  const { imoveis, loading, fetchImoveis, deleteImovel, toggleDestaque } = useImovel();
+
+  useEffect(() => {
+    fetchImoveis();
+  }, []);
+
+  const handleDelete = (id: number) => {
+    confirm({
+      title: 'Tem certeza que deseja excluir este imóvel?',
+      content: 'Esta ação não pode ser desfeita.',
+      okText: 'Sim, excluir',
+      okType: 'danger',
+      cancelText: 'Cancelar',
+      async onOk() {
+        const success = await deleteImovel(id);
+        if (success) {
+          message.success('Imóvel excluído com sucesso!');
+          fetchImoveis();
+        }
+      },
+    });
+  };
+
+  const handleToggleDestaque = async (id: number) => {
+    try {
+      await toggleDestaque(id);
+      fetchImoveis();
+    } catch (error) {
+      console.error('Erro ao alternar destaque:', error);
+    }
+  };
+
   const columns = [
     {
-      title: 'Código',
-      dataIndex: 'codigo',
-      key: 'codigo',
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
+      width: 70,
     },
     {
       title: 'Título',
@@ -29,8 +67,15 @@ const ImoveisAdmin = () => {
     },
     {
       title: 'Tipo',
-      dataIndex: 'tipo',
-      key: 'tipo',
+      dataIndex: 'tipo_imovel',
+      key: 'tipo_imovel',
+      render: (tipo: string) => tipo.charAt(0).toUpperCase() + tipo.slice(1),
+    },
+    {
+      title: 'Negócio',
+      dataIndex: 'tipo_negocio',
+      key: 'tipo_negocio',
+      render: (tipo: string) => tipo.charAt(0).toUpperCase() + tipo.slice(1),
     },
     {
       title: 'Cidade',
@@ -41,12 +86,24 @@ const ImoveisAdmin = () => {
       title: 'Preço',
       dataIndex: 'preco',
       key: 'preco',
-      render: (preco: number) => `R$ ${preco.toLocaleString('pt-BR')}`,
+      render: (preco: number) => new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      }).format(preco),
     },
     {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
+      title: 'Destaque',
+      dataIndex: 'destaque',
+      key: 'destaque',
+      width: 100,
+      align: 'center' as const,
+      render: (destaque: boolean) => (
+        destaque ? (
+          <Tag color="gold" icon={<StarFilled />}>Destaque</Tag>
+        ) : (
+          <Tag>Normal</Tag>
+        )
+      ),
     },
     {
       title: 'Ações',
@@ -57,24 +114,32 @@ const ImoveisAdmin = () => {
             type="link"
             icon={<EyeOutlined />}
             title="Visualizar"
+            onClick={() => navigate(`/imoveis/${record.id}`)}
           />
           <Button
             type="link"
             icon={<EditOutlined />}
             title="Editar"
+            onClick={() => navigate(`/admin/imoveis/editar/${record.id}`)}
+          />
+          <Button
+            type="link"
+            icon={record.destaque ? <StarFilled /> : <StarOutlined />}
+            title={record.destaque ? 'Remover Destaque' : 'Destacar'}
+            style={{ color: record.destaque ? '#faad14' : undefined }}
+            onClick={() => handleToggleDestaque(record.id)}
           />
           <Button
             type="link"
             danger
             icon={<DeleteOutlined />}
             title="Excluir"
+            onClick={() => handleDelete(record.id)}
           />
         </Space>
       ),
     },
   ];
-
-  const data: Imovel[] = [];
 
   return (
     <div className={styles.imoveisContainer}>
@@ -94,7 +159,9 @@ const ImoveisAdmin = () => {
 
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={imoveis}
+        rowKey="id"
+        loading={loading}
         locale={{
           emptyText: 'Nenhum imóvel cadastrado'
         }}
@@ -103,6 +170,7 @@ const ImoveisAdmin = () => {
           showTotal: (total, range) => `${range[0]}-${range[1]} de ${total} imóveis`,
         }}
         className={styles.table}
+        scroll={{ x: 800 }}
       />
     </div>
   );

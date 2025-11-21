@@ -68,13 +68,14 @@ export interface ImovelContextType {
   loading: boolean;
   pagination: Pagination;
   filtros: Filtros;
-  fetchImoveis: (page?: number) => Promise<void>;
+  fetchImoveis: (page?: number, filtrosCustom?: Partial<Filtros>) => Promise<void>;
   fetchDestaques: () => Promise<void>;
   fetchImovel: (id: string | number) => Promise<Imovel | null>;
   createImovel: (data: Partial<Imovel>) => Promise<Imovel>;
   updateImovel: (id: number, data: Partial<Imovel>) => Promise<Imovel>;
   deleteImovel: (id: number) => Promise<boolean>;
   uploadImagem: (imovelId: number, imageFile: File, ordem?: number, principal?: boolean) => Promise<ImovelImagem>;
+  toggleDestaque: (id: number) => Promise<Imovel>;
   updateFiltros: (novosFiltros: Partial<Filtros>) => void;
   limparFiltros: () => void;
 }

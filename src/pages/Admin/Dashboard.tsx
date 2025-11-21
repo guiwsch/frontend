@@ -1,10 +1,50 @@
-import { Card, Row, Col, Typography, Statistic } from 'antd';
+import { Card, Row, Col, Typography, Statistic, Spin } from 'antd';
 import { HomeOutlined, UserOutlined, CalendarOutlined, RiseOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import api from '../../services/api';
 import styles from './Dashboard.module.css';
 
 const { Title } = Typography;
 
+interface Stats {
+  total_imoveis: number;
+  total_leads: number;
+  visitas_agendadas: number;
+  conversoes: number;
+}
+
 const Dashboard = () => {
+  const [stats, setStats] = useState<Stats>({
+    total_imoveis: 0,
+    total_leads: 0,
+    visitas_agendadas: 0,
+    conversoes: 0,
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await api.get('/api/admin/stats/');
+        setStats(response.data);
+      } catch (error) {
+        console.error('Erro ao carregar estatísticas:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px' }}>
+        <Spin size="large" tip="Carregando estatísticas..." />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.dashboardContainer}>
       <Title level={1} className={styles.title}>Dashboard</Title>
@@ -14,7 +54,7 @@ const Dashboard = () => {
           <Card className={styles.card}>
             <Statistic
               title="Total de Imóveis"
-              value={0}
+              value={stats.total_imoveis}
               prefix={<HomeOutlined className={styles.iconGreen} />}
               valueStyle={{ color: '#00b894', fontWeight: 700 }}
             />
@@ -25,7 +65,7 @@ const Dashboard = () => {
           <Card className={styles.card}>
             <Statistic
               title="Leads"
-              value={0}
+              value={stats.total_leads}
               prefix={<UserOutlined className={styles.iconBlue} />}
               valueStyle={{ color: '#0984e3', fontWeight: 700 }}
             />
@@ -36,7 +76,7 @@ const Dashboard = () => {
           <Card className={styles.card}>
             <Statistic
               title="Visitas Agendadas"
-              value={0}
+              value={stats.visitas_agendadas}
               prefix={<CalendarOutlined className={styles.iconGold} />}
               valueStyle={{ color: '#d4af37', fontWeight: 700 }}
             />
@@ -47,7 +87,7 @@ const Dashboard = () => {
           <Card className={styles.card}>
             <Statistic
               title="Conversões"
-              value={0}
+              value={stats.conversoes}
               prefix={<RiseOutlined className={styles.iconOrange} />}
               valueStyle={{ color: '#fdcb6e', fontWeight: 700 }}
             />

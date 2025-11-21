@@ -1,29 +1,355 @@
+/* Page Wrapper */
+.pageWrapper {
+  width: 100%;
+}
+
+/* Container */
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 4rem 2rem;
+  padding: 0 2rem;
 }
 
-.title {
-  font-size: 2.5rem;
-  color: #1a2332;
-  margin-bottom: 2rem;
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, #003366 0%, #004080 100%);
+  padding: 6rem 2rem;
   text-align: center;
+  color: white;
+}
+
+.heroContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.logoAccent {
+  color: #d4af37;
+}
+
+.heroSubtitle {
+  font-size: 1.5rem;
+  opacity: 0.95;
+  font-weight: 300;
+}
+
+/* Sections */
+.section {
+  padding: 5rem 0;
+}
+
+.sectionGray {
+  background-color: #f8fafc;
+  padding: 5rem 0;
+}
+
+/* Story Card */
+.storyCard {
+  display: flex;
+  gap: 3rem;
+  align-items: flex-start;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.storyIcon {
+  font-size: 80px;
+  color: #d4af37;
+  flex-shrink: 0;
+}
+
+.storyContent {
+  flex: 1;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  color: #003366;
+  margin-bottom: 1.5rem;
   font-weight: 700;
 }
 
-.content {
-  line-height: 1.8;
-  color: #1e293b;
+.sectionTitleCenter {
+  font-size: 2.5rem;
+  color: #003366;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-align: center;
 }
 
-.content h2 {
+.sectionSubtitle {
+  text-align: center;
+  font-size: 1.125rem;
+  color: #64748b;
+  margin-bottom: 3rem;
+}
+
+.text {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #475569;
+}
+
+/* Grid Three - Missão, Visão, Valores */
+.gridThree {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.cardIcon {
+  font-size: 48px;
+  color: #d4af37;
+  margin-bottom: 1.5rem;
+}
+
+.cardTitle {
   font-size: 1.5rem;
-  color: #1a2332;
-  margin: 2rem 0 1rem;
+  color: #003366;
+  margin-bottom: 1rem;
   font-weight: 600;
 }
 
-.content p {
+.cardText {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #64748b;
+}
+
+/* Grid Four - Diferenciais */
+.gridFour {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.featureCard {
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+
+.featureIcon {
+  font-size: 56px;
+  color: #003366;
+  margin-bottom: 1.5rem;
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  color: #003366;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.featureText {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* CTA Section */
+.ctaSection {
+  background: linear-gradient(135deg, #003366 0%, #004080 100%);
+  padding: 5rem 2rem;
+  text-align: center;
+  color: white;
+}
+
+.ctaTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
   margin-bottom: 1rem;
+}
+
+.ctaText {
+  font-size: 1.25rem;
+  margin-bottom: 2.5rem;
+  opacity: 0.95;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: #d4af37;
+  color: white;
+  padding: 1rem 3rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+}
+
+.ctaButton:hover {
+  background-color: #c09a2a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4);
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .gridFour {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 4rem 1.5rem;
+  }
+
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.125rem;
+  }
+
+  .section,
+  .sectionGray {
+    padding: 3rem 0;
+  }
+
+  .storyCard {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .storyIcon {
+    font-size: 60px;
+  }
+
+  .sectionTitle,
+  .sectionTitleCenter {
+    font-size: 2rem;
+  }
+
+  .gridThree {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .gridFour {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .card {
+    padding: 2rem;
+  }
+
+  .ctaSection {
+    padding: 3rem 1.5rem;
+  }
+
+  .ctaTitle {
+    font-size: 2rem;
+  }
+
+  .ctaText {
+    font-size: 1.125rem;
+  }
+
+  .ctaButton {
+    padding: 0.875rem 2.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 3rem 1rem;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  .section,
+  .sectionGray {
+    padding: 2.5rem 0;
+  }
+
+  .storyIcon {
+    font-size: 48px;
+  }
+
+  .sectionTitle,
+  .sectionTitleCenter {
+    font-size: 1.75rem;
+  }
+
+  .sectionSubtitle {
+    font-size: 1rem;
+  }
+
+  .text {
+    font-size: 1rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .cardIcon {
+    font-size: 40px;
+  }
+
+  .cardTitle {
+    font-size: 1.25rem;
+  }
+
+  .featureIcon {
+    font-size: 44px;
+  }
+
+  .featureTitle {
+    font-size: 1.125rem;
+  }
+
+  .ctaTitle {
+    font-size: 1.75rem;
+  }
+
+  .ctaText {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .ctaButton {
+    width: 100%;
+    max-width: 300px;
+  }
 }

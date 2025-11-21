@@ -55,3 +55,46 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  .content {
+    gap: 16px;
+  }
+
+  .calendarCard,
+  .listCard {
+    border-radius: 8px;
+  }
+
+  .emptyState {
+    padding: 30px 20px;
+  }
+
+  .emptyIcon {
+    font-size: 36px;
+  }
+
+  .listIcon {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .events li {
+    font-size: 11px;
+  }
+
+  .emptyState {
+    padding: 24px 16px;
+  }
+}

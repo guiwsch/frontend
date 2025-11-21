@@ -1,32 +1,70 @@
-import { Typography, Card, Form, Input, Button, Row, Col, Divider, Switch } from 'antd';
+import { Typography, Card, Form, Input, Button, Row, Col, Divider, Switch, message, Spin } from 'antd';
 import { SaveOutlined, MailOutlined, PhoneOutlined, EnvironmentOutlined, GlobalOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import api from '../../services/api';
 import styles from './Configuracoes.module.css';
 
 const { Title } = Typography;
 const { TextArea } = Input;
 
 interface ConfigValues {
-  nomeImobiliaria: string;
+  nome_empresa: string;
   email: string;
   telefone: string;
   whatsapp: string;
   endereco: string;
-  site: string;
-  sobre: string;
-  notificacoes: {
-    emailNovoLead: boolean;
-    emailNovaVisita: boolean;
-    smsLembreteVisita: boolean;
-  };
+  site?: string;
+  sobre?: string;
+  notificacao_email: boolean;
+  notificacao_sms: boolean;
+  notificacao_whatsapp: boolean;
 }
 
 const Configuracoes = () => {
   const [form] = Form.useForm<ConfigValues>();
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
-  const onFinish = (values: ConfigValues) => {
-    console.log('Configurações salvas:', values);
-    // Aqui você implementaria a lógica para salvar as configurações
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const response = await api.get('/api/admin/configuracoes/');
+        form.setFieldsValue(response.data);
+      } catch (error: any) {
+        if (error.response?.status === 404) {
+          message.info('Configure as informações da imobiliária pela primeira vez');
+        } else {
+          console.error('Erro ao carregar configurações:', error);
+          message.error('Erro ao carregar configurações');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchConfig();
+  }, [form]);
+
+  const onFinish = async (values: ConfigValues) => {
+    setSaving(true);
+    try {
+      await api.put('/api/admin/configuracoes/', values);
+      message.success('Configurações salvas com sucesso!');
+    } catch (error) {
+      console.error('Erro ao salvar configurações:', error);
+      message.error('Erro ao salvar configurações');
+    } finally {
+      setSaving(false);
+    }
   };
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px' }}>
+        <Spin size="large" tip="Carregando configurações..." />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.configContainer}>
@@ -39,11 +77,9 @@ const Configuracoes = () => {
           onFinish={onFinish}
           autoComplete="off"
           initialValues={{
-            notificacoes: {
-              emailNovoLead: true,
-              emailNovaVisita: true,
-              smsLembreteVisita: false
-            }
+            notificacao_email: true,
+            notificacao_sms: false,
+            notificacao_whatsapp: true
           }}
         >
           <Title level={3} className={styles.sectionTitle}>
@@ -54,7 +90,7 @@ const Configuracoes = () => {
             <Col xs={24} md={12}>
               <Form.Item
                 label="Nome da Imobiliária"
-                name="nomeImobiliaria"
+                name="nome_empresa"
                 rules={[{ required: true, message: 'Por favor, insira o nome' }]}
               >
                 <Input placeholder="Ex: ImobiLux Imóveis" />
@@ -135,8 +171,8 @@ const Configuracoes = () => {
           <Row gutter={16}>
             <Col xs={24} md={8}>
               <Form.Item
-                label="E-mail para novos leads"
-                name={['notificacoes', 'emailNovoLead']}
+                label="Notificações por E-mail"
+                name="notificacao_email"
                 valuePropName="checked"
               >
                 <Switch />
@@ -144,8 +180,8 @@ const Configuracoes = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label="E-mail para novas visitas"
-                name={['notificacoes', 'emailNovaVisita']}
+                label="Notificações por SMS"
+                name="notificacao_sms"
                 valuePropName="checked"
               >
                 <Switch />
@@ -153,8 +189,8 @@ const Configuracoes = () => {
             </Col>
             <Col xs={24} md={8}>
               <Form.Item
-                label="SMS de lembrete de visita"
-                name={['notificacoes', 'smsLembreteVisita']}
+                label="Notificações por WhatsApp"
+                name="notificacao_whatsapp"
                 valuePropName="checked"
               >
                 <Switch />
@@ -171,6 +207,7 @@ const Configuracoes = () => {
               icon={<SaveOutlined />}
               size="large"
               className={styles.submitButton}
+              loading={saving}
             >
               Salvar Configurações
             </Button>

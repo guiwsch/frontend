@@ -36,10 +36,12 @@ const ImovelDetalhes = () => {
     );
   }
 
+  const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
   const images =
     imovel.imagens?.map((img) => ({
-      original: img.imagem_url,
-      thumbnail: img.imagem_url,
+      original: `${baseURL}${img.imagem_url}`,
+      thumbnail: `${baseURL}${img.imagem_url}`,
     })) || [];
 
   const formatPrice = (price: number) => {

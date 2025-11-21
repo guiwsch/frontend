@@ -9,6 +9,7 @@ import styles from "./Destaques.module.css";
 
 const Destaques = () => {
   const { destaques, loading } = useImovel();
+  const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -48,8 +49,9 @@ const Destaques = () => {
                   className={styles.cardImage}
                   style={{
                     backgroundImage: `url(${
-                      imovel.imagem_principal ||
-                      "https://via.placeholder.com/400x300"
+                      imovel.imagem_principal
+                        ? `${baseURL}${imovel.imagem_principal}`
+                        : "https://via.placeholder.com/400x300"
                     })`,
                   }}
                 >
