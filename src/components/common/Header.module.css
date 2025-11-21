@@ -1,9 +1,11 @@
 .header {
-  background-color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.15);
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
   position: sticky;
   top: 0;
   z-index: 100;
+  backdrop-filter: blur(10px);
 }
 
 .nav {
@@ -18,12 +20,19 @@
 .logo {
   font-size: 1.875rem;
   font-weight: bold;
-  color: #1a2332;
+  color: #ffffff;
   text-decoration: none;
+  transition: all 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.logo:hover {
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
 }
 
 .logoAccent {
-  color: #60a5fa;
+  color: #d4af37;
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
 }
 
 .navLinks {
@@ -38,13 +47,14 @@
     top: 0;
     right: 0;
     flex-direction: column;
-    background-color: white;
+    background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
     width: 70%;
     height: 100vh;
     padding: 4rem 2rem;
-    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    box-shadow: -2px 0 8px rgba(212, 175, 55, 0.3);
+    border-left: 2px solid rgba(212, 175, 55, 0.4);
     transition: transform 0.3s ease;
-    z-index: 150;
+    z-index: 1001;
   }
 
   .navLinks.closed {
@@ -57,26 +67,53 @@
 }
 
 .navLink {
-  color: #1e293b;
+  color: #ffffff;
   font-weight: 500;
   font-size: 1rem;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #d4af37, #ffd700);
+  transition: width 0.3s ease;
 }
 
 .navLink:hover {
-  color: #60a5fa;
+  color: #d4af37;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.navLink:hover::after {
+  width: 100%;
 }
 
 .menuButton {
   display: none;
   background: transparent;
   border: none;
-  color: #1a2332;
+  color: #d4af37;
   font-size: 1.875rem;
   cursor: pointer;
-  z-index: 200;
+  z-index: 1002;
   padding: 0;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
+  position: relative;
+}
+
+.menuButton:hover {
+  color: #ffd700;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.7));
 }
 
 @media (max-width: 768px) {
@@ -95,9 +132,10 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 30%;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 140;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    pointer-events: all;
   }
 }

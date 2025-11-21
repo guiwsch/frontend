@@ -26,7 +26,7 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     line-height: 1.2;
-    color: ${props => props.theme.colors.primary};
+    color: ${props => props.theme.colors.text};
   }
 
   a {
@@ -46,6 +46,8 @@ const GlobalStyles = createGlobalStyle`
   input, textarea, select {
     font-family: 'Inter', sans-serif;
     outline: none;
+    background-color: ${props => props.theme.colors.backgroundCard};
+    color: ${props => props.theme.colors.text};
     border: 1px solid ${props => props.theme.colors.border};
     border-radius: 4px;
     padding: 12px;
@@ -53,7 +55,8 @@ const GlobalStyles = createGlobalStyle`
     transition: all 0.3s ease;
 
     &:focus {
-      border-color: ${props => props.theme.colors.accent};
+      border-color: ${props => props.theme.colors.secondary};
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1);
     }
   }
 
@@ -73,16 +76,16 @@ const GlobalStyles = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-track {
-    background: ${props => props.theme.colors.lightGray};
+    background: ${props => props.theme.colors.primaryLight};
   }
 
   ::-webkit-scrollbar-thumb {
-    background: ${props => props.theme.colors.primary};
+    background: ${props => props.theme.colors.secondary};
     border-radius: 5px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: ${props => props.theme.colors.secondary};
+    background: ${props => props.theme.colors.secondaryLight};
   }
 `;
 

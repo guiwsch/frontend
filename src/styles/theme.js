@@ -1,31 +1,38 @@
 const theme = {
   colors: {
-    // Cores principais
-    primary: '#1a2332',
-    primaryLight: '#2c3e50',
-    secondary: '#d4af37',
-    secondaryDark: '#c9a961',
-    accent: '#00b894',
-    accentHover: '#00a383',
+    // Cores principais - Preto e Dourado
+    primary: '#0a0a0a',          // Preto profundo
+    primaryLight: '#1a1a1a',     // Preto mais claro
+    primaryDark: '#000000',      // Preto absoluto
+    secondary: '#d4af37',        // Dourado principal
+    secondaryLight: '#f4d03f',   // Dourado claro
+    secondaryDark: '#b8941e',    // Dourado escuro
+    accent: '#c9a961',           // Dourado accent
+    accentHover: '#d4af37',      // Dourado hover
 
     // Cores neutras
     white: '#ffffff',
-    background: '#f8f9fa',
-    lightGray: '#e9ecef',
-    gray: '#adb5bd',
-    darkGray: '#495057',
-    text: '#212529',
-    textLight: '#6c757d',
-    border: '#dee2e6',
+    background: '#0a0a0a',       // Fundo preto
+    backgroundLight: '#1a1a1a',  // Fundo preto claro
+    backgroundCard: '#141414',   // Fundo de cards
+    lightGray: '#2a2a2a',        // Cinza escuro
+    gray: '#4a4a4a',             // Cinza médio
+    darkGray: '#6a6a6a',         // Cinza claro
+    text: '#ffffff',             // Texto branco
+    textLight: '#b8b8b8',        // Texto claro
+    textMuted: '#888888',        // Texto discreto
+    border: '#2a2a2a',           // Borda escura
+    borderLight: '#3a3a3a',      // Borda mais clara
 
     // Estados
-    success: '#00b894',
-    warning: '#fdcb6e',
-    error: '#d63031',
-    info: '#0984e3',
+    success: '#10b981',
+    warning: '#f59e0b',
+    error: '#ef4444',
+    info: '#3b82f6',
 
     // Overlay
-    overlay: 'rgba(26, 35, 50, 0.8)',
+    overlay: 'rgba(0, 0, 0, 0.85)',
+    overlayLight: 'rgba(0, 0, 0, 0.6)',
   },
 
   fonts: {

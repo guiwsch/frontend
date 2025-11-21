@@ -24,7 +24,7 @@
 
 .title {
   font-size: 2.5rem;
-  color: #1a2332;
+  color: #ffffff;
   margin-bottom: 1rem;
   font-weight: 700;
 }
@@ -32,7 +32,10 @@
 .price {
   font-size: 2rem;
   font-weight: 700;
-  color: #2563eb;
+  background: linear-gradient(135deg, #d4af37, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 1.5rem;
 }
 
@@ -40,7 +43,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #64748b;
+  color: #b8b8b8;
   font-size: 1.125rem;
   margin-bottom: 2rem;
 }
@@ -50,9 +53,10 @@
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1.5rem;
   padding: 2rem;
-  background-color: #f8fafc;
+  background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
   border-radius: 12px;
   margin-bottom: 2rem;
+  border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .feature {
@@ -65,17 +69,17 @@
 
 .featureIcon {
   font-size: 32px;
-  color: #1a2332;
+  color: #d4af37;
 }
 
 .featureValue {
   font-weight: 600;
-  color: #1e293b;
+  color: #ffffff;
   font-size: 1.125rem;
 }
 
 .featureLabel {
-  color: #64748b;
+  color: #b8b8b8;
   font-size: 0.875rem;
 }
 
@@ -85,13 +89,13 @@
 
 .descriptionTitle {
   font-size: 1.5rem;
-  color: #1a2332;
+  color: #d4af37;
   margin-bottom: 1rem;
   font-weight: 600;
 }
 
 .descriptionText {
-  color: #475569;
+  color: #b8b8b8;
   line-height: 1.8;
 }
 

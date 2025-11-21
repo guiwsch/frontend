@@ -1,9 +1,10 @@
 .ctaContainer {
   padding: 6rem 2rem;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
+  background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #1a1a1a 100%);
   color: white;
   position: relative;
   overflow: hidden;
+  border-top: 2px solid rgba(212, 175, 55, 0.3);
 }
 
 .ctaContainer::before {
@@ -14,8 +15,8 @@
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.2) 0%, transparent 50%);
+    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
   animation: pulse 8s ease-in-out infinite;
 }
 
@@ -54,12 +55,12 @@
 }
 
 .form {
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(20, 20, 20, 0.95);
   backdrop-filter: blur(10px);
   padding: 2.5rem;
   border-radius: 20px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(212, 175, 55, 0.3);
 }
 
 .inputGroup {
@@ -69,9 +70,105 @@
   margin-bottom: 1rem;
 }
 
+/* Estilos customizados para componentes Ant Design no formulário */
+.form :global(.ant-input),
+.form :global(.ant-input-affix-wrapper) {
+  background-color: rgba(26, 26, 26, 0.9) !important;
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  color: #ffffff !important;
+  border-radius: 8px;
+  font-size: 15px;
+  padding: 10px 14px;
+  transition: all 0.3s ease;
+}
+
+.form :global(.ant-input)::placeholder {
+  color: rgba(184, 184, 184, 0.7) !important;
+}
+
+.form :global(.ant-input):hover,
+.form :global(.ant-input-affix-wrapper):hover {
+  border-color: rgba(212, 175, 55, 0.5) !important;
+  background-color: rgba(26, 26, 26, 1) !important;
+}
+
+.form :global(.ant-input):focus,
+.form :global(.ant-input-affix-wrapper):focus,
+.form :global(.ant-input-affix-wrapper-focused) {
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15) !important;
+  background-color: rgba(26, 26, 26, 1) !important;
+}
+
+/* TextArea específico */
+.form :global(.ant-input-textarea) {
+  background-color: transparent !important;
+}
+
+.form :global(.ant-input-textarea textarea) {
+  background-color: rgba(26, 26, 26, 0.9) !important;
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  color: #ffffff !important;
+  border-radius: 8px;
+  font-size: 15px;
+  padding: 10px 14px;
+  transition: all 0.3s ease;
+}
+
+.form :global(.ant-input-textarea textarea)::placeholder {
+  color: rgba(184, 184, 184, 0.7) !important;
+}
+
+.form :global(.ant-input-textarea textarea):hover {
+  border-color: rgba(212, 175, 55, 0.5) !important;
+  background-color: rgba(26, 26, 26, 1) !important;
+}
+
+.form :global(.ant-input-textarea textarea):focus,
+.form :global(.ant-input-textarea-focused textarea) {
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15) !important;
+  background-color: rgba(26, 26, 26, 1) !important;
+}
+
+/* Botão do formulário */
+.form :global(.ant-btn-primary) {
+  background: linear-gradient(135deg, #d4af37, #ffd700) !important;
+  border: none !important;
+  color: #000000 !important;
+  font-weight: 700;
+  font-size: 16px;
+  height: auto;
+  padding: 14px 28px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.5);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form :global(.ant-btn-primary:hover) {
+  background: linear-gradient(135deg, #ffd700, #ffed4e) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.7) !important;
+}
+
+.form :global(.ant-btn-primary:active) {
+  transform: translateY(0);
+}
+
+.form :global(.ant-btn-primary[disabled]) {
+  background: linear-gradient(135deg, #6a6a6a, #4a4a4a) !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
   .ctaContainer {
-    padding: 4rem 2rem;
+    padding: 3rem 1.5rem;
+  }
+
+  .container {
+    max-width: 100%;
   }
 
   .title {
@@ -80,9 +177,34 @@
 
   .subtitle {
     font-size: 1.125rem;
+    margin-bottom: 2rem;
   }
 
   .form {
-    padding: 2rem 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .inputGroup {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .ctaContainer {
+    padding: 2.5rem 1rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form {
+    padding: 1rem;
+    border-radius: 12px;
   }
 }

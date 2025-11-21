@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import { useSearchParams, Link, useNavigate } from "react-router-dom";
-import { useImovel } from "../../context/ImovelContext";
+import { useEffect, useState } from 'react';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
+import { useImovel } from '../../context/ImovelContext';
 import {
   EnvironmentOutlined,
   HomeOutlined,
   ExpandOutlined,
   CarOutlined,
   FilterOutlined,
-  CloseOutlined
-} from "@ant-design/icons";
-import { Spin, Select, InputNumber, Checkbox, Button, Drawer } from "antd";
-import styles from "./ImovelListagem.module.css";
+  CloseOutlined,
+} from '@ant-design/icons';
+import { Spin, Select, InputNumber, Checkbox, Button, Collapse } from 'antd';
+import styles from './ImovelListagem.module.css';
 
 const { Option } = Select;
 
@@ -37,7 +37,7 @@ const ImovelListagem = () => {
     mobiliado: searchParams.get('mobiliado') === 'true',
   });
 
-  const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // Converte searchParams para string para usar como dependência
   const searchParamsString = searchParams.toString();
@@ -66,7 +66,7 @@ const ImovelListagem = () => {
     });
 
     navigate(`/imoveis?${newSearchParams.toString()}`);
-    setIsFilterDrawerOpen(false);
+    setIsFilterOpen(false);
   };
 
   // Limpa filtros
@@ -94,7 +94,7 @@ const ImovelListagem = () => {
     } else {
       navigate('/imoveis');
     }
-    setIsFilterDrawerOpen(false);
+    setIsFilterOpen(false);
   };
 
   // Conta filtros ativos
@@ -109,9 +109,9 @@ const ImovelListagem = () => {
   };
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
     }).format(price);
   };
 
@@ -176,9 +176,13 @@ const ImovelListagem = () => {
           <InputNumber
             placeholder="R$ Min"
             value={filters.preco_min ? Number(filters.preco_min) : undefined}
-            onChange={(value) => setFilters({ ...filters, preco_min: value ? String(value) : '' })}
-            formatter={value => `R$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            parser={value => value!.replace(/R\$\s?|(,*)/g, '')}
+            onChange={(value) =>
+              setFilters({ ...filters, preco_min: value ? String(value) : '' })
+            }
+            formatter={(value) =>
+              `R$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            }
+            parser={(value) => value!.replace(/R\$\s?|(,*)/g, '')}
             className={styles.filterInput}
             style={{ width: '100%' }}
           />
@@ -189,9 +193,13 @@ const ImovelListagem = () => {
           <InputNumber
             placeholder="R$ Max"
             value={filters.preco_max ? Number(filters.preco_max) : undefined}
-            onChange={(value) => setFilters({ ...filters, preco_max: value ? String(value) : '' })}
-            formatter={value => `R$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            parser={value => value!.replace(/R\$\s?|(,*)/g, '')}
+            onChange={(value) =>
+              setFilters({ ...filters, preco_max: value ? String(value) : '' })
+            }
+            formatter={(value) =>
+              `R$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            }
+            parser={(value) => value!.replace(/R\$\s?|(,*)/g, '')}
             className={styles.filterInput}
             style={{ width: '100%' }}
           />
@@ -208,8 +216,10 @@ const ImovelListagem = () => {
             allowClear
             className={styles.filterInput}
           >
-            {[1, 2, 3, 4, 5].map(num => (
-              <Option key={num} value={String(num)}>{num}+</Option>
+            {[1, 2, 3, 4, 5].map((num) => (
+              <Option key={num} value={String(num)}>
+                {num}+
+              </Option>
             ))}
           </Select>
         </div>
@@ -223,8 +233,10 @@ const ImovelListagem = () => {
             allowClear
             className={styles.filterInput}
           >
-            {[1, 2, 3, 4].map(num => (
-              <Option key={num} value={String(num)}>{num}+</Option>
+            {[1, 2, 3, 4].map((num) => (
+              <Option key={num} value={String(num)}>
+                {num}+
+              </Option>
             ))}
           </Select>
         </div>
@@ -238,8 +250,10 @@ const ImovelListagem = () => {
             allowClear
             className={styles.filterInput}
           >
-            {[1, 2, 3, 4].map(num => (
-              <Option key={num} value={String(num)}>{num}+</Option>
+            {[1, 2, 3, 4].map((num) => (
+              <Option key={num} value={String(num)}>
+                {num}+
+              </Option>
             ))}
           </Select>
         </div>
@@ -250,7 +264,9 @@ const ImovelListagem = () => {
         <InputNumber
           placeholder="Ex: 50"
           value={filters.area_min ? Number(filters.area_min) : undefined}
-          onChange={(value) => setFilters({ ...filters, area_min: value ? String(value) : '' })}
+          onChange={(value) =>
+            setFilters({ ...filters, area_min: value ? String(value) : '' })
+          }
           className={styles.filterInput}
           style={{ width: '100%' }}
         />
@@ -261,19 +277,25 @@ const ImovelListagem = () => {
         <div className={styles.checkboxGroup}>
           <Checkbox
             checked={filters.piscina}
-            onChange={(e) => setFilters({ ...filters, piscina: e.target.checked })}
+            onChange={(e) =>
+              setFilters({ ...filters, piscina: e.target.checked })
+            }
           >
             Piscina
           </Checkbox>
           <Checkbox
             checked={filters.aceita_pets}
-            onChange={(e) => setFilters({ ...filters, aceita_pets: e.target.checked })}
+            onChange={(e) =>
+              setFilters({ ...filters, aceita_pets: e.target.checked })
+            }
           >
             Aceita Pets
           </Checkbox>
           <Checkbox
             checked={filters.mobiliado}
-            onChange={(e) => setFilters({ ...filters, mobiliado: e.target.checked })}
+            onChange={(e) =>
+              setFilters({ ...filters, mobiliado: e.target.checked })
+            }
           >
             Mobiliado
           </Checkbox>
@@ -284,7 +306,11 @@ const ImovelListagem = () => {
         <Button onClick={clearFilters} className={styles.clearButton}>
           Limpar Filtros
         </Button>
-        <Button type="primary" onClick={applyFilters} className={styles.applyButton}>
+        <Button
+          type="primary"
+          onClick={applyFilters}
+          className={styles.applyButton}
+        >
           Aplicar Filtros
         </Button>
       </div>
@@ -298,7 +324,10 @@ const ImovelListagem = () => {
           <h1 className={styles.pageTitle}>{getPageTitle()}</h1>
           {imoveis.length > 0 && (
             <p className={styles.resultCount}>
-              {imoveis.length} {imoveis.length === 1 ? 'imóvel encontrado' : 'imóveis encontrados'}
+              {imoveis.length}{' '}
+              {imoveis.length === 1
+                ? 'imóvel encontrado'
+                : 'imóveis encontrados'}
             </p>
           )}
         </div>
@@ -306,11 +335,16 @@ const ImovelListagem = () => {
         <Button
           type="default"
           icon={<FilterOutlined />}
-          onClick={() => setIsFilterDrawerOpen(true)}
+          onClick={() => setIsFilterOpen(!isFilterOpen)}
           className={styles.filterButton}
         >
           Filtros {countActiveFilters() > 0 && `(${countActiveFilters()})`}
         </Button>
+      </div>
+
+      {/* Dropdown de Filtros Mobile */}
+      <div className={`${styles.filterDropdown} ${isFilterOpen ? styles.filterDropdownOpen : ''}`}>
+        <FilterContent />
       </div>
 
       <div className={styles.contentWrapper}>
@@ -346,7 +380,7 @@ const ImovelListagem = () => {
                         backgroundImage: `url(${
                           imovel.imagem_principal
                             ? `${baseURL}${imovel.imagem_principal}`
-                            : "https://via.placeholder.com/400x300"
+                            : 'https://via.placeholder.com/400x300'
                         })`,
                       }}
                     />
@@ -387,23 +421,6 @@ const ImovelListagem = () => {
         </main>
       </div>
 
-      {/* Drawer de Filtros Mobile */}
-      <Drawer
-        title="Filtros"
-        placement="right"
-        onClose={() => setIsFilterDrawerOpen(false)}
-        open={isFilterDrawerOpen}
-        width={320}
-        extra={
-          <Button
-            type="text"
-            icon={<CloseOutlined />}
-            onClick={() => setIsFilterDrawerOpen(false)}
-          />
-        }
-      >
-        <FilterContent />
-      </Drawer>
     </div>
   );
 };

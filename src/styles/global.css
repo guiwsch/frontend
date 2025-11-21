@@ -10,8 +10,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #1e293b;
-  background-color: #ffffff;
+  color: #ffffff;
+  background-color: #0a0a0a;
 }
 
 button {
@@ -35,4 +35,157 @@ input,
 textarea,
 select {
   font-family: inherit;
+}
+
+/* Estilos globais para dropdowns do Ant Design */
+.ant-select-dropdown {
+  background-color: #1a1a1a !important;
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+  padding: 4px 0 !important;
+}
+
+.ant-select-item {
+  color: #ffffff !important;
+  padding: 8px 12px !important;
+  transition: all 0.2s ease;
+}
+
+.ant-select-item-option-content {
+  color: #ffffff !important;
+}
+
+.ant-select-item:hover,
+.ant-select-item-option-active {
+  background-color: rgba(212, 175, 55, 0.15) !important;
+}
+
+.ant-select-item-option-selected {
+  background-color: rgba(212, 175, 55, 0.25) !important;
+  font-weight: 600;
+}
+
+.ant-select-item-option-selected .ant-select-item-option-content {
+  color: #d4af37 !important;
+}
+
+/* Estilos globais para Drawer do Ant Design */
+.ant-drawer-content-wrapper {
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.5) !important;
+}
+
+.ant-drawer-content {
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%) !important;
+}
+
+.ant-drawer-header {
+  background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%) !important;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3) !important;
+  padding: 16px 24px !important;
+}
+
+.ant-drawer-title {
+  color: #d4af37 !important;
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+.ant-drawer-close {
+  color: #d4af37 !important;
+}
+
+.ant-drawer-close:hover {
+  color: #ffd700 !important;
+  background-color: rgba(212, 175, 55, 0.1) !important;
+}
+
+.ant-drawer-body {
+  padding: 24px !important;
+  background: transparent !important;
+}
+
+.ant-drawer-mask {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Ajustes mobile para Drawer */
+@media (max-width: 768px) {
+  .ant-drawer-content-wrapper {
+    width: 85% !important;
+    max-width: 400px !important;
+  }
+
+  .ant-drawer-header {
+    padding: 14px 20px !important;
+  }
+
+  .ant-drawer-title {
+    font-size: 1.125rem !important;
+  }
+
+  .ant-drawer-body {
+    padding: 20px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .ant-drawer-content-wrapper {
+    width: 90% !important;
+  }
+
+  .ant-drawer-header {
+    padding: 12px 16px !important;
+  }
+
+  .ant-drawer-body {
+    padding: 16px !important;
+  }
+}
+
+/* Estilos para InputNumber do Ant Design */
+.ant-input-number {
+  background-color: rgba(26, 26, 26, 0.9) !important;
+  border-color: rgba(212, 175, 55, 0.3) !important;
+  color: #ffffff !important;
+}
+
+.ant-input-number:hover {
+  border-color: rgba(212, 175, 55, 0.5) !important;
+}
+
+.ant-input-number-focused,
+.ant-input-number:focus,
+.ant-input-number:focus-within {
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15) !important;
+}
+
+.ant-input-number-input {
+  background-color: transparent !important;
+  color: #ffffff !important;
+}
+
+.ant-input-number-input::placeholder {
+  color: rgba(184, 184, 184, 0.7) !important;
+}
+
+.ant-input-number-handler-wrap {
+  background-color: rgba(20, 20, 20, 0.5) !important;
+  border-left-color: rgba(212, 175, 55, 0.3) !important;
+}
+
+.ant-input-number-handler {
+  border-color: rgba(212, 175, 55, 0.2) !important;
+  color: #d4af37 !important;
+}
+
+.ant-input-number-handler:hover {
+  background-color: rgba(212, 175, 55, 0.1) !important;
+}
+
+.ant-input-number-handler-up-inner,
+.ant-input-number-handler-down-inner {
+  color: #d4af37 !important;
 }

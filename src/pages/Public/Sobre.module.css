@@ -12,15 +12,33 @@
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, #003366 0%, #004080 100%);
+  background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #1a1a1a 100%);
   padding: 6rem 2rem;
   text-align: center;
   color: white;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 .heroContent {
   max-width: 800px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .heroTitle {
@@ -28,6 +46,7 @@
   font-weight: 700;
   margin-bottom: 1.5rem;
   line-height: 1.2;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .logoAccent {
@@ -43,11 +62,23 @@
 /* Sections */
 .section {
   padding: 5rem 0;
+  background: linear-gradient(180deg, #0a0a0a 0%, #141414 50%, #0a0a0a 100%);
 }
 
 .sectionGray {
-  background-color: #f8fafc;
+  background: linear-gradient(180deg, #141414 0%, #0f0f0f 50%, #0a0a0a 100%);
   padding: 5rem 0;
+  position: relative;
+}
+
+.sectionGray::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent);
 }
 
 /* Story Card */
@@ -71,30 +102,32 @@
 
 .sectionTitle {
   font-size: 2.5rem;
-  color: #003366;
+  color: #d4af37;
   margin-bottom: 1.5rem;
   font-weight: 700;
+  text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
 }
 
 .sectionTitleCenter {
   font-size: 2.5rem;
-  color: #003366;
+  color: #d4af37;
   margin-bottom: 1rem;
   font-weight: 700;
   text-align: center;
+  text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
 }
 
 .sectionSubtitle {
   text-align: center;
   font-size: 1.125rem;
-  color: #64748b;
+  color: #b8b8b8;
   margin-bottom: 3rem;
 }
 
 .text {
   font-size: 1.125rem;
   line-height: 1.8;
-  color: #475569;
+  color: #b8b8b8;
 }
 
 /* Grid Three - Missão, Visão, Valores */
@@ -105,17 +138,37 @@
 }
 
 .card {
-  background: white;
+  background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
   padding: 2.5rem;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
+  border: 2px solid rgba(212, 175, 55, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #d4af37, #ffd700, #c9a961);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.card:hover::before {
+  transform: scaleX(1);
 }
 
 .card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+  border-color: rgba(212, 175, 55, 0.5);
 }
 
 .cardIcon {
@@ -126,7 +179,7 @@
 
 .cardTitle {
   font-size: 1.5rem;
-  color: #003366;
+  color: #ffffff;
   margin-bottom: 1rem;
   font-weight: 600;
 }
@@ -134,7 +187,7 @@
 .cardText {
   font-size: 1rem;
   line-height: 1.7;
-  color: #64748b;
+  color: #b8b8b8;
 }
 
 /* Grid Four - Diferenciais */
@@ -151,61 +204,115 @@
 
 .featureIcon {
   font-size: 56px;
-  color: #003366;
+  background: linear-gradient(135deg, #d4af37, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 1.5rem;
+  display: inline-block;
 }
 
 .featureTitle {
   font-size: 1.25rem;
-  color: #003366;
+  color: #ffffff;
   margin-bottom: 0.75rem;
   font-weight: 600;
 }
 
 .featureText {
   font-size: 0.95rem;
-  color: #64748b;
+  color: #b8b8b8;
   line-height: 1.6;
 }
 
 /* CTA Section */
 .ctaSection {
-  background: linear-gradient(135deg, #003366 0%, #004080 100%);
+  background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #1a1a1a 100%);
   padding: 5rem 2rem;
   text-align: center;
   color: white;
+  border-top: 2px solid rgba(212, 175, 55, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+  animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .ctaTitle {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .ctaText {
   font-size: 1.25rem;
   margin-bottom: 2.5rem;
   opacity: 0.95;
+  position: relative;
+  z-index: 1;
 }
 
 .ctaButton {
   display: inline-block;
-  background-color: #d4af37;
-  color: white;
-  padding: 1rem 3rem;
+  background: linear-gradient(135deg, #d4af37, #ffd700);
+  color: #000 !important;
+  padding: 1.125rem 3rem;
   font-size: 1.125rem;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: 50px;
   text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.ctaButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s ease;
+}
+
+.ctaButton:hover::before {
+  left: 100%;
 }
 
 .ctaButton:hover {
-  background-color: #c09a2a;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4);
-  color: white;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 30px rgba(255, 215, 0, 0.7);
+  border-color: rgba(255, 215, 0, 0.3);
+  color: #000 !important;
 }
 
 /* Responsive Design */
