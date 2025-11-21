@@ -2,6 +2,7 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
 import { Input, Select, Button } from "antd";
+import { motion } from "framer-motion";
 import styles from "./HeroSection.module.css";
 
 const { Option } = Select;
@@ -52,12 +53,29 @@ const HeroSection = () => {
   return (
     <section className={styles.heroContainer}>
       <div className={styles.heroContent}>
-        <h1 className={styles.title}>Encontre o Lar dos Seus Sonhos</h1>
-        <p className={styles.subtitle}>
+        <motion.h1
+          className={styles.title}
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          Encontre o Lar dos Seus Sonhos
+        </motion.h1>
+        <motion.p
+          className={styles.subtitle}
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+        >
           As melhores opções de imóveis para compra e aluguel
-        </p>
+        </motion.p>
 
-        <div className={styles.searchBox}>
+        <motion.div
+          className={styles.searchBox}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+        >
           <Select
             placeholder="Comprar ou Alugar"
             value={searchParams.tipo_negocio || undefined}
@@ -108,7 +126,7 @@ const HeroSection = () => {
           >
             Buscar
           </Button>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

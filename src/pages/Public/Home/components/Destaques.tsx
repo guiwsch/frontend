@@ -5,6 +5,7 @@ import {
   HomeOutlined,
   ExpandOutlined,
 } from "@ant-design/icons";
+import { motion } from "framer-motion";
 import styles from "./Destaques.module.css";
 
 const Destaques = () => {
@@ -24,10 +25,40 @@ const Destaques = () => {
 
   const destaquesArray = Array.isArray(destaques) ? destaques : [];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
     <section className={styles.destaquesContainer}>
       <div className={styles.container}>
-        <h2 className={styles.sectionTitle}>Imóveis em Destaque</h2>
+        <motion.h2
+          className={styles.sectionTitle}
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          Imóveis em Destaque
+        </motion.h2>
         {destaquesArray.length === 0 ? (
           <div className={styles.emptyState}>
             <p>Nenhum imóvel em destaque no momento.</p>
@@ -38,13 +69,19 @@ const Destaques = () => {
             )}
           </div>
         ) : (
-          <div className={styles.grid}>
-            {destaquesArray.map((imovel) => (
-              <Link
-                key={imovel.id}
-                to={`/imoveis/${imovel.id}`}
-                className={styles.card}
-              >
+          <motion.div
+            className={styles.grid}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.1 }}
+          >
+            {destaquesArray.map((imovel, index) => (
+              <motion.div key={imovel.id} variants={cardVariants}>
+                <Link
+                  to={`/imoveis/${imovel.id}`}
+                  className={styles.card}
+                >
                 <div
                   className={styles.cardImage}
                   style={{
@@ -84,14 +121,21 @@ const Destaques = () => {
                   </div>
                 </div>
               </Link>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
-        <div className={styles.buttonContainer}>
+        <motion.div
+          className={styles.buttonContainer}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
           <Link to="/imoveis" className={styles.viewAllButton}>
             Ver Todos os Imóveis
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

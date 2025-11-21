@@ -2,6 +2,7 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import { toast } from "react-toastify";
 import api from "../../../../services/api";
 import { Input, Button } from "antd";
+import { motion } from "framer-motion";
 import styles from "./CallToAction.module.css";
 
 const { TextArea } = Input;
@@ -56,12 +57,33 @@ const CallToAction = () => {
   return (
     <section className={styles.ctaContainer}>
       <div className={styles.container}>
-        <h2 className={styles.title}>Precisa de Ajuda?</h2>
-        <p className={styles.subtitle}>
+        <motion.h2
+          className={styles.title}
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          Precisa de Ajuda?
+        </motion.h2>
+        <motion.p
+          className={styles.subtitle}
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           Entre em contato conosco e encontre o imóvel perfeito para você
-        </p>
+        </motion.p>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <motion.form
+          onSubmit={handleSubmit}
+          className={styles.form}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
           <div className={styles.inputGroup}>
             <Input
               name="nome"
@@ -109,7 +131,7 @@ const CallToAction = () => {
           >
             Enviar Mensagem
           </Button>
-        </form>
+        </motion.form>
       </div>
     </section>
   );

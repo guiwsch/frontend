@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { HomeOutlined, KeyOutlined } from "@ant-design/icons";
+import { motion } from "framer-motion";
 import styles from "./Categorias.module.css";
 
 interface Categoria {
@@ -31,21 +32,42 @@ const Categorias = () => {
   return (
     <section className={styles.categoriasContainer}>
       <div className={styles.container}>
-        <h2 className={styles.sectionTitle}>O que você procura?</h2>
+        <motion.h2
+          className={styles.sectionTitle}
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          O que você procura?
+        </motion.h2>
         <div className={styles.grid}>
           {categorias.map((categoria, index) => (
-            <Link
+            <motion.div
               key={index}
-              to={categoria.link}
-              className={styles.categoryCard}
-              style={{ backgroundImage: `url(${categoria.image})` }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
             >
-              <div className={styles.categoryContent}>
-                <div className={styles.categoryIcon}>{categoria.icon}</div>
-                <h3 className={styles.categoryTitle}>{categoria.titulo}</h3>
-                <p className={styles.categoryDescription}>{categoria.descricao}</p>
-              </div>
-            </Link>
+              <Link
+                to={categoria.link}
+                className={styles.categoryCard}
+                style={{ backgroundImage: `url(${categoria.image})` }}
+              >
+                <div className={styles.categoryContent}>
+                  <motion.div
+                    className={styles.categoryIcon}
+                    whileHover={{ scale: 1.2, rotate: 10 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {categoria.icon}
+                  </motion.div>
+                  <h3 className={styles.categoryTitle}>{categoria.titulo}</h3>
+                  <p className={styles.categoryDescription}>{categoria.descricao}</p>
+                </div>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>

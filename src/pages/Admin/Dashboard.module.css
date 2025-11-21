@@ -1,22 +1,27 @@
 .dashboardContainer {
   padding: 0;
+  min-height: 100vh;
 }
 
 .title {
   font-size: 32px;
   color: #003366;
   margin-bottom: 32px;
+  font-weight: 700;
 }
 
 .card {
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
 }
 
 .card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  border-color: #d9d9d9;
 }
 
 .iconGreen {
@@ -39,6 +44,57 @@
   color: #fdcb6e;
 }
 
+/* Estilos para listas */
+.card :global(.ant-list-item) {
+  padding: 16px 0;
+  transition: background-color 0.2s ease;
+}
+
+.card :global(.ant-list-item:hover) {
+  background-color: #fafafa;
+  border-radius: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.card :global(.ant-card-head-title) {
+  font-size: 18px;
+  font-weight: 600;
+  color: #003366;
+}
+
+/* Estilos para gráficos */
+.card :global(.recharts-wrapper) {
+  margin: 0 auto;
+}
+
+.card :global(.recharts-legend-wrapper) {
+  padding-top: 20px !important;
+}
+
+/* Animação suave */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .card :global(.recharts-wrapper) {
+    font-size: 12px;
+  }
+}
+
 @media (max-width: 768px) {
   .title {
     font-size: 24px;
@@ -55,6 +111,18 @@
   .iconOrange {
     font-size: 36px;
   }
+
+  .card :global(.ant-statistic-title) {
+    font-size: 13px;
+  }
+
+  .card :global(.ant-statistic-content) {
+    font-size: 20px;
+  }
+
+  .card :global(.recharts-wrapper) {
+    font-size: 11px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -68,5 +136,17 @@
   .iconGold,
   .iconOrange {
     font-size: 32px;
+  }
+
+  .card :global(.ant-card-head-title) {
+    font-size: 16px;
+  }
+
+  .card :global(.ant-list-item-meta-title) {
+    font-size: 14px;
+  }
+
+  .card :global(.ant-list-item-meta-description) {
+    font-size: 12px;
   }
 }
