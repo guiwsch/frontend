@@ -1,6 +1,8 @@
-import { Typography, Form, Input, Select, InputNumber, Button, Row, Col, Card } from 'antd';
+import { Typography, Form, Input, Select, InputNumber, Button, Row, Col, Card, message } from 'antd';
 import { SaveOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useImovel } from '../../context/ImovelContext';
 import styles from './ImovelForm.module.css';
 
 const { Title } = Typography;
@@ -31,10 +33,49 @@ interface ImovelFormValues {
 const ImovelForm = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm<ImovelFormValues>();
+  const { createImovel } = useImovel();
+  const [loading, setLoading] = useState(false);
 
-  const onFinish = (values: ImovelFormValues) => {
+  const onFinish = async (values: ImovelFormValues) => {
     console.log('Form values:', values);
-    // Aqui você implementaria a lógica para salvar o imóvel
+    setLoading(true);
+    try {
+      // Mapear os campos do formulário para o formato esperado pelo backend
+      const imovelData = {
+        titulo: values.titulo,
+        descricao: values.descricao,
+        tipo_imovel: values.tipo,
+        tipo_negocio: values.status,
+        preco_venda: values.status === 'venda' || values.status === 'vendido' ? values.preco : 0,
+        valor_aluguel: values.status === 'aluguel' || values.status === 'alugado' ? values.preco : 0,
+        area_total: values.area,
+        area_construida: values.area, // Assumindo que são iguais por enquanto
+        quartos: values.quartos,
+        banheiros: values.banheiros,
+        vagas_garagem: values.vagas,
+        rua: values.endereco.rua,
+        numero: values.endereco.numero,
+        complemento: values.endereco.complemento || '',
+        bairro: values.endereco.bairro,
+        cidade: values.endereco.cidade,
+        estado: values.endereco.estado,
+        cep: values.endereco.cep,
+        piscina: false,
+        aceita_pets: false,
+        mobiliado: false,
+        destaque: false
+      };
+
+      console.log('Dados enviados para API:', imovelData);
+      await createImovel(imovelData);
+      message.success('Imóvel criado com sucesso!');
+      navigate('/admin/imoveis');
+    } catch (error) {
+      console.error('Erro ao criar imóvel:', error);
+      message.error('Erro ao criar imóvel. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -239,6 +280,7 @@ const ImovelForm = () => {
               icon={<SaveOutlined />}
               size="large"
               className={styles.submitButton}
+              loading={loading}
             >
               Salvar Imóvel
             </Button>
