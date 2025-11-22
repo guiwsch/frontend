@@ -96,8 +96,6 @@ const ImovelForm = () => {
   };
 
   const uploadImages = async (imovelId: number) => {
-    const token = localStorage.getItem('access_token');
-
     for (let i = 0; i < fileList.length; i++) {
       const file = fileList[i];
       const formData = new FormData();
@@ -106,17 +104,11 @@ const ImovelForm = () => {
       formData.append('principal', (i === 0).toString());
 
       try {
-        const response = await fetch(`http://localhost:8000/api/imoveis/${imovelId}/upload_imagem/`, {
-          method: 'POST',
+        await api.post(`/api/imoveis/${imovelId}/upload_imagem/`, formData, {
           headers: {
-            'Authorization': `Bearer ${token}`
+            'Content-Type': 'multipart/form-data',
           },
-          body: formData
         });
-
-        if (!response.ok) {
-          throw new Error(`Erro ao fazer upload da imagem ${i + 1}`);
-        }
       } catch (error) {
         console.error(`Erro ao fazer upload da imagem ${i + 1}:`, error);
         throw error;
