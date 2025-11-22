@@ -1,10 +1,10 @@
 .header {
-  background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
   box-shadow: 0 2px 8px rgba(212, 175, 55, 0.15);
   border-bottom: 2px solid rgba(212, 175, 55, 0.3);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1002;
   backdrop-filter: blur(10px);
 }
 
@@ -47,22 +47,44 @@
     top: 0;
     right: 0;
     flex-direction: column;
-    background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
-    width: 70%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.98) 0%, rgba(10, 10, 10, 0.98) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    width: 280px;
+    max-width: 80%;
     height: 100vh;
-    padding: 4rem 2rem;
-    box-shadow: -2px 0 8px rgba(212, 175, 55, 0.3);
-    border-left: 2px solid rgba(212, 175, 55, 0.4);
-    transition: transform 0.3s ease;
+    padding: 6rem 2rem 2rem 2rem;
+    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(212, 175, 55, 0.2);
+    border-left: 1px solid rgba(212, 175, 55, 0.3);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
     z-index: 1001;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .navLinks.closed {
     transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
   }
 
   .navLinks.open {
     transform: translateX(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .navLinks::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .navLinks::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .navLinks::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.3);
+    border-radius: 2px;
   }
 }
 
@@ -96,6 +118,29 @@
   width: 100%;
 }
 
+@media (max-width: 768px) {
+  .navLink {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 1.125rem;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    text-align: left;
+  }
+
+  .navLink::after {
+    display: none;
+  }
+
+  .navLink:hover,
+  .navLink:active {
+    background: rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.3);
+    transform: none;
+  }
+}
+
 .loginButton {
   color: #ffffff;
   font-weight: 600;
@@ -123,8 +168,14 @@
   .loginButton {
     width: 100%;
     justify-content: center;
-    padding: 0.875rem 1.5rem;
-    margin-top: 1rem;
+    padding: 1rem 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 1.125rem;
+    border-radius: 10px;
+  }
+
+  .loginButton:active {
+    transform: scale(0.98);
   }
 }
 
@@ -135,7 +186,7 @@
   color: #d4af37;
   font-size: 1.875rem;
   cursor: pointer;
-  z-index: 1002;
+  z-index: 1003;
   padding: 0;
   transition: all 0.3s ease;
   filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
@@ -155,19 +206,69 @@
 }
 
 .overlay {
-  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {
   .overlay.open {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 30%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 999;
+    opacity: 1;
+    visibility: visible;
     pointer-events: all;
+  }
+}
+
+@media (min-width: 769px) {
+  .overlay {
+    display: none;
+  }
+}
+
+/* Animações para menu mobile */
+@media (max-width: 768px) {
+  .navLinks.open .navLink:nth-child(1),
+  .navLinks.open .loginButton {
+    animation: slideInRight 0.4s ease-out 0.1s backwards;
+  }
+
+  .navLinks.open .navLink:nth-child(2) {
+    animation: slideInRight 0.4s ease-out 0.15s backwards;
+  }
+
+  .navLinks.open .navLink:nth-child(3) {
+    animation: slideInRight 0.4s ease-out 0.2s backwards;
+  }
+
+  .navLinks.open .navLink:nth-child(4) {
+    animation: slideInRight 0.4s ease-out 0.25s backwards;
+  }
+
+  .navLinks.open .navLink:nth-child(5) {
+    animation: slideInRight 0.4s ease-out 0.3s backwards;
+  }
+
+  .navLinks.open .navLink:nth-child(6) {
+    animation: slideInRight 0.4s ease-out 0.35s backwards;
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 }
