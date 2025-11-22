@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MenuOutlined, CloseOutlined } from '@ant-design/icons';
+import { MenuOutlined, CloseOutlined, LoginOutlined } from '@ant-design/icons';
 import styles from './Header.module.css';
 
 const Header = () => {
@@ -48,6 +48,13 @@ const Header = () => {
             </Link>
             <Link to="/contato" className={styles.navLink} onClick={closeMenu}>
               Contato
+            </Link>
+            <Link
+              to="/admin"
+              className={styles.loginButton}
+              onClick={closeMenu}
+            >
+              <LoginOutlined /> Login
             </Link>
           </div>
           <button className={styles.menuButton} onClick={toggleMenu}>

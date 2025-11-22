@@ -9,6 +9,7 @@ import {
   RocketOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  GlobalOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
@@ -81,6 +82,14 @@ const AdminLayout = () => {
             );
           })}
         </nav>
+
+        {/* View Site Button */}
+        <Link to="/" className={styles.viewSiteButton}>
+          <div className={styles.navLinkIcon}>
+            <GlobalOutlined />
+          </div>
+          {!collapsed && <span className={styles.navLinkText}>Ir à Página</span>}
+        </Link>
 
         {/* Logout Button */}
         <button onClick={handleLogout} className={styles.logoutButton}>
