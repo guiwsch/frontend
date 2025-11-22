@@ -11,9 +11,21 @@ export interface LoginResponse {
   error?: string;
 }
 
+export interface RegisterData {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface RegisterResponse {
+  success: boolean;
+  error?: string;
+}
+
 export interface AuthContextType {
   user: DecodedToken | null;
   login: (username: string, password: string) => Promise<LoginResponse>;
+  register: (data: RegisterData) => Promise<RegisterResponse>;
   logout: () => void;
   refreshToken: () => Promise<string>;
   isAuthenticated: () => boolean;

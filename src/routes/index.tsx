@@ -16,6 +16,7 @@ import Contato from "../pages/Public/Contato";
 
 // Páginas Admin
 import Login from "../pages/Admin/Login";
+import Register from "../pages/Admin/Register";
 import Dashboard from "../pages/Admin/Dashboard";
 import ImoveisAdmin from "../pages/Admin/Imoveis";
 import ImovelForm from "../pages/Admin/ImovelForm";
@@ -60,8 +61,9 @@ const AppRoutes = () => {
         <Route path="/contato" element={<Contato />} />
       </Route>
 
-      {/* Login */}
+      {/* Login e Registro */}
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       {/* Rotas Admin (Protegidas) */}
       <Route

@@ -1,7 +1,7 @@
 import { createContext, useState, useContext, useEffect, ReactNode } from "react";
 import { jwtDecode } from "jwt-decode";
 import api from "../services/api";
-import { DecodedToken, LoginResponse, AuthContextType } from "../types/auth";
+import { DecodedToken, LoginResponse, AuthContextType, RegisterData, RegisterResponse } from "../types/auth";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -41,6 +41,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
     setLoading(false);
   }, []);
+
+  const register = async (data: RegisterData): Promise<RegisterResponse> => {
+    try {
+      await api.post("/api/register/", data);
+      return { success: true };
+    } catch (error: any) {
+      console.error("Erro no registro:", error);
+      return {
+        success: false,
+        error: error.response?.data?.detail || "Erro ao registrar usuário",
+      };
+    }
+  };
 
   const login = async (
     username: string,
@@ -116,6 +129,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const value: AuthContextType = {
     user,
     login,
+    register,
     logout,
     refreshToken,
     isAuthenticated,

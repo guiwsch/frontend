@@ -300,7 +300,7 @@
 }
 
 .input::placeholder {
-  color: rgba(184, 184, 184, 0.5) !important;
+  color: rgba(184, 184, 184, 0.8) !important;
 }
 
 .inputIcon {
@@ -341,6 +341,26 @@
 .submitButton:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+/* Register Link */
+.registerLink {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #b8b8b8;
+  font-size: 0.9375rem;
+}
+
+.registerLink a {
+  color: #d4af37;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.registerLink a:hover {
+  color: #ffd700;
+  text-decoration: underline;
 }
 
 /* Footer */
