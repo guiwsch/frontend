@@ -1,8 +1,9 @@
-import { Typography, Form, Input, Select, InputNumber, Button, Row, Col, Card, message, Upload, Checkbox } from 'antd';
+import { Typography, Form, Input, Select, InputNumber, Button, Row, Col, Card, message, Upload, Checkbox, Spin } from 'antd';
 import { SaveOutlined, ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { useImovel } from '../../context/ImovelContext';
+import api from '../../services/api';
 import styles from './ImovelForm.module.css';
 import type { UploadFile } from 'antd/es/upload/interface';
 
@@ -37,10 +38,62 @@ interface ImovelFormValues {
 
 const ImovelForm = () => {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
   const [form] = Form.useForm<ImovelFormValues>();
   const { createImovel } = useImovel();
   const [loading, setLoading] = useState(false);
+  const [loadingData, setLoadingData] = useState(false);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const isEditMode = !!id;
+
+  // Carregar dados do imóvel em modo de edição
+  useEffect(() => {
+    if (isEditMode && id) {
+      loadImovelData(parseInt(id));
+    }
+  }, [id, isEditMode]);
+
+  const loadImovelData = async (imovelId: number) => {
+    setLoadingData(true);
+    try {
+      const response = await api.get(`/api/imoveis/${imovelId}/`);
+      const imovel = response.data;
+
+      // Mapear os dados do backend para o formato do formulário
+      form.setFieldsValue({
+        titulo: imovel.titulo,
+        descricao: imovel.descricao,
+        tipo: imovel.tipo_imovel,
+        status: imovel.tipo_negocio,
+        preco: imovel.tipo_negocio === 'venda' || imovel.tipo_negocio === 'vendido'
+          ? imovel.preco_venda
+          : imovel.valor_aluguel,
+        area: imovel.area_total,
+        quartos: imovel.quartos,
+        banheiros: imovel.banheiros,
+        vagas: imovel.vagas_garagem,
+        piscina: imovel.piscina,
+        aceita_pets: imovel.aceita_pets,
+        mobiliado: imovel.mobiliado,
+        destaque: imovel.destaque,
+        endereco: {
+          rua: imovel.rua,
+          numero: imovel.numero,
+          complemento: imovel.complemento,
+          bairro: imovel.bairro,
+          cidade: imovel.cidade,
+          estado: imovel.estado,
+          cep: imovel.cep,
+        },
+      });
+    } catch (error) {
+      console.error('Erro ao carregar imóvel:', error);
+      message.error('Erro ao carregar dados do imóvel');
+      navigate('/admin/imoveis');
+    } finally {
+      setLoadingData(false);
+    }
+  };
 
   const uploadImages = async (imovelId: number) => {
     const token = localStorage.getItem('access_token');
@@ -102,29 +155,60 @@ const ImovelForm = () => {
       };
 
       console.log('Dados enviados para API:', imovelData);
-      const novoImovel = await createImovel(imovelData);
 
-      // Fazer upload das imagens se houver
-      if (fileList.length > 0 && novoImovel?.id) {
-        await uploadImages(novoImovel.id);
-        message.success('Imóvel criado com sucesso e imagens enviadas!');
+      let imovelId: number;
+
+      if (isEditMode && id) {
+        // Modo de edição
+        await api.put(`/api/imoveis/${id}/`, imovelData);
+        imovelId = parseInt(id);
+
+        // Fazer upload das imagens se houver
+        if (fileList.length > 0) {
+          await uploadImages(imovelId);
+          message.success('Imóvel atualizado com sucesso e imagens enviadas!');
+        } else {
+          message.success('Imóvel atualizado com sucesso!');
+        }
       } else {
-        message.success('Imóvel criado com sucesso!');
+        // Modo de criação
+        const novoImovel = await createImovel(imovelData);
+        imovelId = novoImovel?.id;
+
+        // Fazer upload das imagens se houver
+        if (fileList.length > 0 && imovelId) {
+          await uploadImages(imovelId);
+          message.success('Imóvel criado com sucesso e imagens enviadas!');
+        } else {
+          message.success('Imóvel criado com sucesso!');
+        }
       }
 
       navigate('/admin/imoveis');
     } catch (error) {
-      console.error('Erro ao criar imóvel:', error);
-      message.error('Erro ao criar imóvel. Tente novamente.');
+      console.error(`Erro ao ${isEditMode ? 'atualizar' : 'criar'} imóvel:`, error);
+      message.error(`Erro ao ${isEditMode ? 'atualizar' : 'criar'} imóvel. Tente novamente.`);
     } finally {
       setLoading(false);
     }
   };
 
+  if (loadingData) {
+    return (
+      <div className={styles.formContainer}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+          <Spin size="large" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.formContainer}>
       <div className={styles.header}>
-        <Title level={1} className={styles.title}>Novo Imóvel</Title>
+        <Title level={1} className={styles.title}>
+          {isEditMode ? 'Editar Imóvel' : 'Novo Imóvel'}
+        </Title>
         <Button
           icon={<ArrowLeftOutlined />}
           onClick={() => navigate('/admin/imoveis')}
@@ -387,7 +471,7 @@ const ImovelForm = () => {
               className={styles.submitButton}
               loading={loading}
             >
-              Salvar Imóvel
+              {isEditMode ? 'Atualizar Imóvel' : 'Salvar Imóvel'}
             </Button>
           </Form.Item>
         </Form>

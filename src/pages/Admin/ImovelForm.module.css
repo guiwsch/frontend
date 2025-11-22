@@ -1,80 +1,280 @@
+/* Container Principal */
 .formContainer {
-  padding: 0;
+  padding: 2rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+  animation: fadeIn 0.5s ease-out;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Header */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
+  margin-bottom: 2rem;
+  animation: slideDown 0.6s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .title {
-  font-size: 32px;
-  color: #003366;
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff, #d4af37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin: 0;
 }
 
+/* Form Card */
 .formCard {
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(26, 26, 26, 0.6) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+  border-radius: 16px !important;
+  animation: fadeInUp 0.7s ease-out;
 }
 
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.formCard :global(.ant-card-body) {
+  padding: 2rem;
+}
+
+/* Section Title */
 .sectionTitle {
-  font-size: 20px;
-  color: #003366;
-  margin-top: 24px;
-  margin-bottom: 16px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #f0f0f0;
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #d4af37;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sectionTitle::before {
+  content: '';
+  width: 4px;
+  height: 1.5rem;
+  background: linear-gradient(135deg, #d4af37, #c09a2a);
+  border-radius: 2px;
 }
 
 .sectionTitle:first-of-type {
   margin-top: 0;
 }
 
+/* Form Items */
+.formCard :global(.ant-form-item-label > label) {
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+.formCard :global(.ant-input),
+.formCard :global(.ant-input-number),
+.formCard :global(.ant-select-selector),
+.formCard :global(.ant-picker) {
+  background: rgba(15, 15, 15, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  border-radius: 8px;
+}
+
+.formCard :global(.ant-input::placeholder),
+.formCard :global(.ant-input-number-input::placeholder) {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.formCard :global(.ant-input:hover),
+.formCard :global(.ant-input-number:hover),
+.formCard :global(.ant-select-selector:hover),
+.formCard :global(.ant-picker:hover) {
+  border-color: rgba(212, 175, 55, 0.4) !important;
+}
+
+.formCard :global(.ant-input:focus),
+.formCard :global(.ant-input-number:focus),
+.formCard :global(.ant-select-focused .ant-select-selector),
+.formCard :global(.ant-picker-focused) {
+  border-color: rgba(212, 175, 55, 0.6) !important;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1) !important;
+}
+
+.formCard :global(.ant-select-selection-item) {
+  color: #ffffff !important;
+}
+
+.formCard :global(.ant-select-arrow) {
+  color: #d4af37 !important;
+}
+
+.formCard :global(.ant-input-number-handler-wrap) {
+  background: rgba(15, 15, 15, 0.8) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.formCard :global(.ant-input-number-handler-up),
+.formCard :global(.ant-input-number-handler-down) {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #d4af37 !important;
+}
+
+.formCard :global(.ant-input-number-handler:hover) {
+  background: rgba(212, 175, 55, 0.1) !important;
+}
+
+/* Checkbox */
+.formCard :global(.ant-checkbox-wrapper) {
+  color: #ffffff !important;
+}
+
+.formCard :global(.ant-checkbox-inner) {
+  background: rgba(15, 15, 15, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.formCard :global(.ant-checkbox-checked .ant-checkbox-inner) {
+  background: linear-gradient(135deg, #d4af37, #c09a2a) !important;
+  border-color: #d4af37 !important;
+}
+
+.formCard :global(.ant-checkbox-wrapper:hover .ant-checkbox-inner) {
+  border-color: rgba(212, 175, 55, 0.6) !important;
+}
+
+/* Upload */
+.formCard :global(.ant-upload.ant-upload-select) {
+  background: rgba(15, 15, 15, 0.6) !important;
+  border: 1px dashed rgba(212, 175, 55, 0.4) !important;
+  border-radius: 8px;
+}
+
+.formCard :global(.ant-upload.ant-upload-select:hover) {
+  border-color: rgba(212, 175, 55, 0.6) !important;
+  background: rgba(15, 15, 15, 0.8) !important;
+}
+
+.formCard :global(.ant-upload-list-picture-card-container) {
+  background: rgba(15, 15, 15, 0.4);
+  border-radius: 8px;
+}
+
+.formCard :global(.ant-upload-list-item) {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(15, 15, 15, 0.6) !important;
+}
+
+.formCard :global(.ant-upload-list-item-thumbnail),
+.formCard :global(.ant-upload-list-item-thumbnail img) {
+  border-radius: 4px;
+}
+
+/* Submit Container */
 .submitContainer {
-  margin-top: 32px;
+  margin-top: 2.5rem;
   margin-bottom: 0;
   text-align: right;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .submitButton {
-  background-color: #d4af37;
-  border-color: #d4af37;
+  background: linear-gradient(135deg, #d4af37, #c09a2a) !important;
+  border: none !important;
   font-weight: 600;
   min-width: 200px;
+  height: 48px;
+  font-size: 1rem;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  transition: all 0.3s ease;
 }
 
 .submitButton:hover {
-  background-color: #c09a2a;
-  border-color: #c09a2a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4) !important;
 }
 
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+.submitButton:active {
+  transform: translateY(0);
+}
+
+/* Form Item Extra Text */
+.formCard :global(.ant-form-item-extra) {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .formContainer {
+    padding: 1.5rem;
   }
 
   .title {
-    font-size: 24px;
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .formContainer {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .formCard :global(.ant-card-body) {
+    padding: 1.5rem;
   }
 
   .sectionTitle {
-    font-size: 18px;
-    margin-top: 20px;
-    margin-bottom: 12px;
-  }
-
-  .formCard {
-    border-radius: 8px;
+    font-size: 1.125rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .submitContainer {
     text-align: center;
-    margin-top: 24px;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
   }
 
   .submitButton {
@@ -84,11 +284,24 @@
 }
 
 @media (max-width: 480px) {
+  .formContainer {
+    padding: 0.75rem;
+  }
+
   .title {
-    font-size: 20px;
+    font-size: 1.5rem;
+  }
+
+  .formCard :global(.ant-card-body) {
+    padding: 1rem;
   }
 
   .sectionTitle {
-    font-size: 16px;
+    font-size: 1rem;
+  }
+
+  .submitButton {
+    height: 44px;
+    font-size: 0.9375rem;
   }
 }

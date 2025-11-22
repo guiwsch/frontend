@@ -75,7 +75,7 @@ const AppRoutes = () => {
         <Route index element={<Dashboard />} />
         <Route path="imoveis" element={<ImoveisAdmin />} />
         <Route path="imoveis/novo" element={<ImovelForm />} />
-        <Route path="imoveis/:id/editar" element={<ImovelForm />} />
+        <Route path="imoveis/editar/:id" element={<ImovelForm />} />
         <Route path="leads" element={<LeadsAdmin />} />
         <Route path="visitas" element={<VisitasAdmin />} />
         <Route path="configuracoes" element={<Configuracoes />} />

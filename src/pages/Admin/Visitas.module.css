@@ -1,100 +1,794 @@
+/* Container Principal */
 .visitasContainer {
-  padding: 0;
+  padding: 2rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+  animation: slideDown 0.6s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .title {
-  font-size: 32px;
-  color: #003366;
-  margin-bottom: 32px;
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff, #d4af37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
+.titleIcon {
+  color: #d4af37;
+  animation: pulse 2s infinite;
 }
 
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: #b8b8b8;
+  margin: 0;
+  font-weight: 300;
+}
+
+.headerBadge {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(255, 215, 0, 0.05));
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 50px;
+  color: #d4af37;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+  animation: slideLeft 0.8s ease-out;
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Stats Row */
+.statsRow {
+  margin-bottom: 2rem;
+}
+
+/* Stat Cards */
+.statCard {
+  background: rgba(26, 26, 26, 0.6) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+  padding: 1.5rem !important;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: scaleIn 0.5s ease-out backwards;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.statCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(212, 175, 55, 0.4) !important;
+}
+
+.statCard:hover::before {
+  opacity: 1;
+}
+
+.statCardBlue {
+  border-left: 4px solid #0984e3 !important;
+}
+
+.statCardGold {
+  border-left: 4px solid #d4af37 !important;
+}
+
+.statCardGreen {
+  border-left: 4px solid #00b894 !important;
+}
+
+.statCardOrange {
+  border-left: 4px solid #fdcb6e !important;
+}
+
+.statCard :global(.ant-card-body) {
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.statIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.statCardBlue .statIcon {
+  background: linear-gradient(135deg, rgba(9, 132, 227, 0.2), rgba(9, 132, 227, 0.05));
+  color: #0984e3;
+  box-shadow: 0 0 20px rgba(9, 132, 227, 0.3);
+}
+
+.statCardGold .statIcon {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.05));
+  color: #d4af37;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.statCardGreen .statIcon {
+  background: linear-gradient(135deg, rgba(0, 184, 148, 0.2), rgba(0, 184, 148, 0.05));
+  color: #00b894;
+  box-shadow: 0 0 20px rgba(0, 184, 148, 0.3);
+}
+
+.statCardOrange .statIcon {
+  background: linear-gradient(135deg, rgba(253, 203, 110, 0.2), rgba(253, 203, 110, 0.05));
+  color: #fdcb6e;
+  box-shadow: 0 0 20px rgba(253, 203, 110, 0.3);
+}
+
+.statContent {
+  flex: 1;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  color: #b8b8b8;
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1;
+}
+
+/* Calendar Card */
 .calendarCard,
 .listCard {
+  background: rgba(26, 26, 26, 0.6) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+  border-radius: 16px !important;
+  overflow: hidden;
+  animation: fadeInUp 0.7s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.cardTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cardTitle :global(.anticon) {
+  color: #d4af37;
+}
+
+/* Calendar */
+.calendar :global(.ant-picker-calendar) {
+  background: transparent !important;
+  color: #ffffff !important;
+}
+
+.calendar :global(.ant-picker-panel) {
+  background: transparent !important;
+}
+
+.calendar :global(.ant-picker-calendar-header) {
+  background: rgba(15, 15, 15, 0.6);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.calendar :global(.ant-picker-calendar-header .ant-select-selector) {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.calendar :global(.ant-picker-calendar-header .ant-select-arrow) {
+  color: #d4af37 !important;
+}
+
+.calendar :global(.ant-picker-calendar-header .ant-radio-button-wrapper) {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.calendar :global(.ant-picker-calendar-header .ant-radio-button-wrapper-checked) {
+  background: rgba(212, 175, 55, 0.2) !important;
+  border-color: rgba(212, 175, 55, 0.5) !important;
+  color: #d4af37 !important;
+}
+
+/* Calendar Body */
+.calendar :global(.ant-picker-body) {
+  padding: 0.5rem;
+}
+
+.calendar :global(.ant-picker-content) {
+  background: transparent;
+}
+
+.calendar :global(table) {
+  border-collapse: separate;
+  border-spacing: 4px;
+}
+
+.calendar :global(.ant-picker-content thead tr th) {
+  color: #d4af37 !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.calendar :global(.ant-picker-cell) {
+  color: #ffffff !important;
+}
+
+.calendar :global(.ant-picker-cell-in-view) {
+  color: #ffffff !important;
+}
+
+.calendar :global(.ant-picker-cell-disabled) {
+  color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.calendar :global(.ant-picker-cell-disabled .ant-picker-calendar-date) {
+  background: rgba(0, 0, 0, 0.2) !important;
+  opacity: 0.4;
+}
+
+.calendar :global(.ant-picker-cell:not(.ant-picker-cell-in-view) .ant-picker-calendar-date-value) {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.calendar :global(.ant-picker-calendar-date) {
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  border-radius: 8px;
+  margin: 2px;
+  background: rgba(15, 15, 15, 0.3);
+  transition: all 0.2s ease;
+}
+
+.calendar :global(.ant-picker-calendar-date-value) {
+  color: #ffffff !important;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.calendar :global(.ant-picker-calendar-date:hover) {
+  background: rgba(212, 175, 55, 0.15) !important;
+  border-color: rgba(212, 175, 55, 0.4) !important;
+  transform: scale(1.02);
+}
+
+.calendar :global(.ant-picker-cell-selected .ant-picker-calendar-date) {
+  background: rgba(212, 175, 55, 0.25) !important;
+  border-color: rgba(212, 175, 55, 0.6) !important;
+}
+
+.calendar :global(.ant-picker-cell-selected .ant-picker-calendar-date-value) {
+  color: #d4af37 !important;
+}
+
+.calendar :global(.ant-picker-calendar-date-today) {
+  border-color: rgba(9, 132, 227, 0.8) !important;
+  background: rgba(9, 132, 227, 0.1) !important;
+  box-shadow: 0 0 0 1px rgba(9, 132, 227, 0.3);
+}
+
+.calendar :global(.ant-picker-calendar-date-today .ant-picker-calendar-date-value) {
+  color: #0984e3 !important;
+  font-weight: 700;
+}
+
+/* Calendar - Células com eventos */
+.calendar :global(.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-calendar-date) {
+  border-color: rgba(9, 132, 227, 0.8) !important;
+  box-shadow: 0 0 12px rgba(9, 132, 227, 0.4);
+}
+
+/* Calendar - Dropdown de seleção */
+:global(.ant-select-dropdown) {
+  background: rgba(26, 26, 26, 0.95) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.3) !important;
+}
+
+:global(.ant-select-item) {
+  color: #ffffff !important;
+}
+
+:global(.ant-select-item-option-selected) {
+  background: rgba(212, 175, 55, 0.2) !important;
+  color: #d4af37 !important;
+}
+
+:global(.ant-select-item-option-active) {
+  background: rgba(212, 175, 55, 0.1) !important;
 }
 
 .events {
   list-style: none;
   padding: 0;
   margin: 0;
+  margin-top: 0.25rem;
 }
 
 .events li {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 12px;
+  font-size: 0.6875rem;
+  margin-bottom: 0.125rem;
+  padding: 0.125rem 0.25rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  border-left: 2px solid currentColor;
 }
 
+.events li :global(.ant-badge-status-dot) {
+  width: 6px;
+  height: 6px;
+  margin-right: 4px;
+}
+
+.events li :global(.ant-badge-status-text) {
+  color: #ffffff;
+  font-size: 0.6875rem;
+  font-weight: 500;
+}
+
+/* Calendar Cell Custom */
+.calendarCell {
+  min-height: 80px;
+  padding: 0.25rem;
+}
+
+.dateNumber {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.hasEvents .dateNumber {
+  color: #d4af37;
+  font-weight: 700;
+}
+
+.dateContent {
+  width: 100%;
+}
+
+/* List Card */
+.listCard :global(.ant-card-body) {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.visitasList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Visita Card */
+.visitaCard {
+  background: rgba(15, 15, 15, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  transition: all 0.3s ease;
+}
+
+.visitaCard:hover {
+  background: rgba(15, 15, 15, 0.8) !important;
+  border-color: rgba(212, 175, 55, 0.3) !important;
+  transform: translateX(4px);
+}
+
+.visitaCard :global(.ant-card-body) {
+  padding: 1rem !important;
+}
+
+/* Visita Header */
+.visitaHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.visitaAvatar {
+  background: linear-gradient(135deg, #0984e3, #0652a8) !important;
+  box-shadow: 0 4px 12px rgba(9, 132, 227, 0.4);
+}
+
+.visitaHeaderInfo {
+  flex: 1;
+}
+
+.visitaCliente {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.25rem 0;
+}
+
+.visitaData {
+  font-size: 0.8125rem;
+  color: #d4af37;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+/* Visita Info */
+.visitaInfo {
+  margin-bottom: 1rem;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.infoLabel {
+  font-size: 0.8125rem;
+  color: #b8b8b8;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.infoValue {
+  font-size: 0.8125rem;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Observações */
+.observacoes {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(212, 175, 55, 0.1);
+  border-left: 3px solid #d4af37;
+  border-radius: 6px;
+}
+
+.observacoesLabel {
+  font-size: 0.75rem;
+  color: #d4af37;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.observacoesText {
+  font-size: 0.8125rem;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Status Section */
+.statusSection {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.statusLabel {
+  font-size: 0.8125rem;
+  color: #b8b8b8;
+  font-weight: 600;
+}
+
+.statusSelect {
+  flex: 1;
+}
+
+.statusSelect :global(.ant-select-selector) {
+  background: rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 6px !important;
+}
+
+.statusSelect :global(.ant-select-selector:hover) {
+  border-color: rgba(212, 175, 55, 0.4) !important;
+}
+
+/* Delete Button */
+.deleteButton {
+  background: rgba(211, 47, 47, 0.1) !important;
+  border: 1px solid rgba(211, 47, 47, 0.3) !important;
+  color: #ff4d4f !important;
+  border-radius: 6px !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.deleteButton:hover {
+  background: rgba(211, 47, 47, 0.2) !important;
+  border-color: rgba(211, 47, 47, 0.5) !important;
+  transform: translateY(-2px);
+}
+
+/* Empty State */
 .emptyState {
   text-align: center;
-  padding: 40px;
-  color: #999;
+  padding: 3rem 1rem;
 }
 
 .emptyIcon {
-  font-size: 48px;
-  margin-bottom: 16px;
-  color: #d9d9d9;
-}
-
-.listIcon {
-  font-size: 24px;
+  font-size: 4rem;
   color: #d4af37;
+  margin-bottom: 1rem;
+  opacity: 0.5;
 }
 
-@media (max-width: 1200px) {
-  .content {
-    grid-template-columns: 1fr;
+.emptyState h3 {
+  color: #ffffff;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.emptyState p {
+  color: #b8b8b8;
+  font-size: 0.9375rem;
+}
+
+/* Loading Container */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(212, 175, 55, 0.2);
+  border-top-color: #d4af37;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .visitasContainer {
+    padding: 1.5rem;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .headerBadge {
+    align-self: flex-start;
   }
 }
 
 @media (max-width: 768px) {
+  .visitasContainer {
+    padding: 1rem;
+  }
+
   .title {
-    font-size: 24px;
-    margin-bottom: 24px;
+    font-size: 1.75rem;
   }
 
-  .content {
-    gap: 16px;
+  .subtitle {
+    font-size: 1rem;
   }
 
-  .calendarCard,
-  .listCard {
-    border-radius: 8px;
+  .statValue {
+    font-size: 1.5rem;
   }
 
-  .emptyState {
-    padding: 30px 20px;
+  .statIcon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
   }
 
-  .emptyIcon {
-    font-size: 36px;
+  .calendar :global(.ant-picker-content thead tr th) {
+    font-size: 0.625rem;
+    padding: 0.5rem 0.25rem;
   }
 
-  .listIcon {
-    font-size: 20px;
+  .calendar :global(.ant-picker-calendar-date-value) {
+    font-size: 0.8125rem;
+  }
+
+  .calendarCell {
+    min-height: 60px;
+  }
+
+  .dateNumber {
+    font-size: 0.8125rem;
+  }
+
+  .events li {
+    font-size: 0.625rem;
+    padding: 0.0625rem 0.125rem;
   }
 }
 
 @media (max-width: 480px) {
+  .visitasContainer {
+    padding: 0.75rem;
+  }
+
   .title {
-    font-size: 20px;
-    margin-bottom: 20px;
+    font-size: 1.5rem;
+    gap: 0.5rem;
   }
 
-  .events li {
-    font-size: 11px;
+  .subtitle {
+    font-size: 0.875rem;
   }
 
-  .emptyState {
-    padding: 24px 16px;
+  .headerBadge {
+    font-size: 0.8125rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .statCard {
+    padding: 1rem !important;
+  }
+
+  .statIcon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+  }
+
+  .statValue {
+    font-size: 1.25rem;
+  }
+
+  .visitaCliente {
+    font-size: 0.9375rem;
+  }
+
+  .visitaData {
+    font-size: 0.75rem;
   }
 }

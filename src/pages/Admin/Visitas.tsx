@@ -1,12 +1,20 @@
-import { Typography, Calendar, Badge, Card, List, Tag, Space, Button, Modal, message, Select } from 'antd';
-import { CalendarOutlined, ClockCircleOutlined, HomeOutlined, UserOutlined, CheckCircleOutlined, CloseCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Calendar, Badge, Tag, Button, Modal, message, Select, Avatar } from 'antd';
+import {
+  CalendarOutlined,
+  ClockCircleOutlined,
+  HomeOutlined,
+  UserOutlined,
+  DeleteOutlined,
+  FireOutlined,
+  CheckCircleOutlined,
+  TrophyOutlined,
+} from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import api from '../../services/api';
 import styles from './Visitas.module.css';
 
-const { Title } = Typography;
 const { confirm } = Modal;
 const { Option } = Select;
 
@@ -89,13 +97,27 @@ const VisitasAdmin = () => {
   const dateCellRender = (value: Dayjs) => {
     const listData = getListData(value);
     return (
-      <ul className={styles.events}>
-        {listData.map((item, index) => (
-          <li key={index}>
-            <Badge status={item.type as any} text={item.content} />
-          </li>
-        ))}
-      </ul>
+      <div className={styles.dateContent}>
+        <ul className={styles.events}>
+          {listData.map((item, index) => (
+            <li key={index}>
+              <Badge status={item.type as any} text={item.content} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+
+  const fullCellRender = (value: Dayjs) => {
+    const listData = getListData(value);
+    const hasEvents = listData.length > 0;
+
+    return (
+      <div className={`${styles.calendarCell} ${hasEvents ? styles.hasEvents : ''}`}>
+        <div className={styles.dateNumber}>{value.date()}</div>
+        {dateCellRender(value)}
+      </div>
     );
   };
 
@@ -128,72 +150,193 @@ const VisitasAdmin = () => {
     .filter(v => dayjs(v.data_hora).isAfter(dayjs().startOf('day')))
     .sort((a, b) => dayjs(a.data_hora).diff(dayjs(b.data_hora)));
 
+  // Calcular estatísticas
+  const stats = {
+    total: proximasVisitas.length,
+    agendadas: proximasVisitas.filter(v => v.status === 'agendada').length,
+    confirmadas: proximasVisitas.filter(v => v.status === 'confirmada').length,
+    hoje: proximasVisitas.filter(v =>
+      dayjs(v.data_hora).format('YYYY-MM-DD') === dayjs().format('YYYY-MM-DD')
+    ).length,
+  };
+
   return (
     <div className={styles.visitasContainer}>
-      <Title level={1} className={styles.title}>Gerenciar Visitas</Title>
+      {/* Header */}
+      <div className={styles.header}>
+        <div>
+          <h1 className={styles.title}>
+            <CalendarOutlined className={styles.titleIcon} />
+            Gerenciar Visitas
+          </h1>
+          <p className={styles.subtitle}>Agende e acompanhe as visitas aos imóveis</p>
+        </div>
+        <div className={styles.headerBadge}>
+          <TrophyOutlined /> {stats.hoje} Visitas Hoje
+        </div>
+      </div>
 
-      <div className={styles.content}>
-        <Card className={styles.calendarCard} title="Calendário de Visitas">
-          <Calendar cellRender={dateCellRender} />
-        </Card>
-
-        <Card className={styles.listCard} title="Próximas Visitas" loading={loading}>
-          {proximasVisitas.length === 0 ? (
-            <div className={styles.emptyState}>
-              <CalendarOutlined className={styles.emptyIcon} />
-              <p>Nenhuma visita agendada</p>
+      {/* Stats Cards */}
+      <Row gutter={[20, 20]} className={styles.statsRow}>
+        <Col xs={24} sm={12} lg={6}>
+          <Card className={`${styles.statCard} ${styles.statCardBlue}`}>
+            <div className={styles.statIcon}>
+              <CalendarOutlined />
             </div>
-          ) : (
-            <List
-              dataSource={proximasVisitas}
-              renderItem={(visita) => (
-                <List.Item
-                  actions={[
-                    <Select
-                      value={visita.status}
-                      onChange={(newStatus) => handleUpdateStatus(visita.id, newStatus)}
-                      style={{ width: 120 }}
-                      size="small"
-                    >
-                      <Option value="agendada">Agendada</Option>
-                      <Option value="confirmada">Confirmada</Option>
-                      <Option value="realizada">Realizada</Option>
-                      <Option value="cancelada">Cancelada</Option>
-                    </Select>,
+            <div className={styles.statContent}>
+              <p className={styles.statLabel}>Próximas Visitas</p>
+              <h2 className={styles.statValue}>{stats.total}</h2>
+            </div>
+          </Card>
+        </Col>
+
+        <Col xs={24} sm={12} lg={6}>
+          <Card className={`${styles.statCard} ${styles.statCardGold}`}>
+            <div className={styles.statIcon}>
+              <ClockCircleOutlined />
+            </div>
+            <div className={styles.statContent}>
+              <p className={styles.statLabel}>Agendadas</p>
+              <h2 className={styles.statValue}>{stats.agendadas}</h2>
+            </div>
+          </Card>
+        </Col>
+
+        <Col xs={24} sm={12} lg={6}>
+          <Card className={`${styles.statCard} ${styles.statCardGreen}`}>
+            <div className={styles.statIcon}>
+              <CheckCircleOutlined />
+            </div>
+            <div className={styles.statContent}>
+              <p className={styles.statLabel}>Confirmadas</p>
+              <h2 className={styles.statValue}>{stats.confirmadas}</h2>
+            </div>
+          </Card>
+        </Col>
+
+        <Col xs={24} sm={12} lg={6}>
+          <Card className={`${styles.statCard} ${styles.statCardOrange}`}>
+            <div className={styles.statIcon}>
+              <FireOutlined />
+            </div>
+            <div className={styles.statContent}>
+              <p className={styles.statLabel}>Visitas Hoje</p>
+              <h2 className={styles.statValue}>{stats.hoje}</h2>
+            </div>
+          </Card>
+        </Col>
+      </Row>
+
+      {/* Content */}
+      <Row gutter={[20, 20]}>
+        <Col xs={24} lg={14}>
+          <Card className={styles.calendarCard}>
+            <div className={styles.cardHeader}>
+              <h3 className={styles.cardTitle}>
+                <CalendarOutlined /> Calendário de Visitas
+              </h3>
+            </div>
+            <Calendar
+              fullCellRender={fullCellRender}
+              className={styles.calendar}
+            />
+          </Card>
+        </Col>
+
+        <Col xs={24} lg={10}>
+          <Card className={styles.listCard}>
+            <div className={styles.cardHeader}>
+              <h3 className={styles.cardTitle}>
+                <ClockCircleOutlined /> Próximas Visitas
+              </h3>
+            </div>
+
+            {loading ? (
+              <div className={styles.loadingContainer}>
+                <div className={styles.spinner} />
+              </div>
+            ) : proximasVisitas.length === 0 ? (
+              <div className={styles.emptyState}>
+                <CalendarOutlined className={styles.emptyIcon} />
+                <h3>Nenhuma visita agendada</h3>
+                <p>As visitas futuras aparecerão aqui</p>
+              </div>
+            ) : (
+              <div className={styles.visitasList}>
+                {proximasVisitas.map((visita) => (
+                  <Card key={visita.id} className={styles.visitaCard}>
+                    <div className={styles.visitaHeader}>
+                      <Avatar
+                        size={40}
+                        icon={<UserOutlined />}
+                        className={styles.visitaAvatar}
+                      />
+                      <div className={styles.visitaHeaderInfo}>
+                        <h4 className={styles.visitaCliente}>{visita.nome_cliente}</h4>
+                        <span className={styles.visitaData}>
+                          <CalendarOutlined /> {formatDateTime(visita.data_hora)}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className={styles.visitaInfo}>
+                      <div className={styles.infoRow}>
+                        <span className={styles.infoLabel}>
+                          <HomeOutlined /> Imóvel:
+                        </span>
+                        <span className={styles.infoValue}>ID #{visita.imovel_id}</span>
+                      </div>
+                      <div className={styles.infoRow}>
+                        <span className={styles.infoLabel}>Telefone:</span>
+                        <span className={styles.infoValue}>{visita.telefone_cliente}</span>
+                      </div>
+                      {visita.observacoes && (
+                        <div className={styles.observacoes}>
+                          <p className={styles.observacoesLabel}>Observações:</p>
+                          <p className={styles.observacoesText}>{visita.observacoes}</p>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className={styles.statusSection}>
+                      <span className={styles.statusLabel}>Status:</span>
+                      <Select
+                        value={visita.status}
+                        onChange={(newStatus) => handleUpdateStatus(visita.id, newStatus)}
+                        className={styles.statusSelect}
+                        size="small"
+                      >
+                        <Option value="agendada">
+                          <Tag color="blue">Agendada</Tag>
+                        </Option>
+                        <Option value="confirmada">
+                          <Tag color="green">Confirmada</Tag>
+                        </Option>
+                        <Option value="realizada">
+                          <Tag color="cyan">Realizada</Tag>
+                        </Option>
+                        <Option value="cancelada">
+                          <Tag color="red">Cancelada</Tag>
+                        </Option>
+                      </Select>
+                    </div>
+
                     <Button
-                      type="link"
                       danger
                       icon={<DeleteOutlined />}
-                      title="Excluir"
                       onClick={() => handleDelete(visita.id)}
-                    />
-                  ]}
-                >
-                  <List.Item.Meta
-                    avatar={<CalendarOutlined className={styles.listIcon} />}
-                    title={
-                      <Space>
-                        <span>{formatDateTime(visita.data_hora)}</span>
-                        <Tag color={getStatusColor(visita.status)}>
-                          {getStatusText(visita.status)}
-                        </Tag>
-                      </Space>
-                    }
-                    description={
-                      <Space direction="vertical" size="small">
-                        <span><UserOutlined /> Cliente: {visita.nome_cliente}</span>
-                        <span><HomeOutlined /> Imóvel ID: {visita.imovel_id}</span>
-                        <span>📞 {visita.telefone_cliente}</span>
-                        {visita.observacoes && <span>💬 {visita.observacoes}</span>}
-                      </Space>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
-          )}
-        </Card>
-      </div>
+                      className={styles.deleteButton}
+                      block
+                    >
+                      Excluir Visita
+                    </Button>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 };
