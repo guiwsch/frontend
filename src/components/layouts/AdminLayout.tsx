@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 import {
   HomeOutlined,
   AppstoreOutlined,
@@ -6,49 +6,93 @@ import {
   CalendarOutlined,
   SettingOutlined,
   LogoutOutlined,
+  RocketOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
 } from "@ant-design/icons";
+import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import styles from "./AdminLayout.module.css";
 
 const AdminLayout = () => {
   const { logout } = useAuth();
+  const location = useLocation();
+  const [collapsed, setCollapsed] = useState(false);
 
   const handleLogout = () => {
     logout();
   };
 
+  const isActive = (path: string) => {
+    if (path === '/admin') {
+      return location.pathname === '/admin';
+    }
+    return location.pathname.startsWith(path);
+  };
+
+  const menuItems = [
+    { path: '/admin', icon: HomeOutlined, label: 'Dashboard' },
+    { path: '/admin/imoveis', icon: AppstoreOutlined, label: 'Imóveis' },
+    { path: '/admin/leads', icon: TeamOutlined, label: 'Leads' },
+    { path: '/admin/visitas', icon: CalendarOutlined, label: 'Visitas' },
+    { path: '/admin/configuracoes', icon: SettingOutlined, label: 'Configurações' },
+  ];
+
   return (
     <div className={styles.container}>
-      <aside className={styles.sidebar}>
-        <div className={styles.logo}>Admin</div>
+      {/* Sidebar */}
+      <aside className={`${styles.sidebar} ${collapsed ? styles.sidebarCollapsed : ''}`}>
+        {/* Logo */}
+        <div className={styles.logoContainer}>
+          <div className={styles.logoIcon}>
+            <RocketOutlined />
+          </div>
+          {!collapsed && (
+            <div className={styles.logoText}>
+              Imobi<span className={styles.logoAccent}>Lux</span>
+            </div>
+          )}
+        </div>
+
+        {/* Toggle Button */}
+        <button
+          className={styles.toggleButton}
+          onClick={() => setCollapsed(!collapsed)}
+        >
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        </button>
+
+        {/* Navigation Menu */}
         <nav className={styles.navMenu}>
-          <Link to="/admin" className={styles.navLink}>
-            <HomeOutlined className={styles.navLinkIcon} />
-            <span className={styles.navLinkText}>Dashboard</span>
-          </Link>
-          <Link to="/admin/imoveis" className={styles.navLink}>
-            <AppstoreOutlined className={styles.navLinkIcon} />
-            <span className={styles.navLinkText}>Imóveis</span>
-          </Link>
-          <Link to="/admin/leads" className={styles.navLink}>
-            <TeamOutlined className={styles.navLinkIcon} />
-            <span className={styles.navLinkText}>Leads</span>
-          </Link>
-          <Link to="/admin/visitas" className={styles.navLink}>
-            <CalendarOutlined className={styles.navLinkIcon} />
-            <span className={styles.navLinkText}>Visitas</span>
-          </Link>
-          <Link to="/admin/configuracoes" className={styles.navLink}>
-            <SettingOutlined className={styles.navLinkIcon} />
-            <span className={styles.navLinkText}>Configurações</span>
-          </Link>
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`${styles.navLink} ${isActive(item.path) ? styles.navLinkActive : ''}`}
+              >
+                <div className={styles.navLinkIcon}>
+                  <Icon />
+                </div>
+                {!collapsed && <span className={styles.navLinkText}>{item.label}</span>}
+                {isActive(item.path) && <div className={styles.navLinkIndicator} />}
+              </Link>
+            );
+          })}
         </nav>
+
+        {/* Logout Button */}
         <button onClick={handleLogout} className={styles.logoutButton}>
-          <LogoutOutlined className={styles.navLinkIcon} />
-          <span className={styles.navLinkText}>Sair</span>
+          <div className={styles.navLinkIcon}>
+            <LogoutOutlined />
+          </div>
+          {!collapsed && <span className={styles.navLinkText}>Sair</span>}
         </button>
       </aside>
-      <main className={styles.mainContent}>
+
+      {/* Main Content */}
+      <main className={`${styles.mainContent} ${collapsed ? styles.mainContentExpanded : ''}`}>
         <Outlet />
       </main>
     </div>

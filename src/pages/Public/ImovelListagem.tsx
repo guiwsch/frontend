@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { useImovel } from '../../context/ImovelContext';
+import { PulseLoader } from 'react-spinners';
 import {
   EnvironmentOutlined,
   HomeOutlined,
@@ -9,7 +10,7 @@ import {
   FilterOutlined,
   CloseOutlined,
 } from '@ant-design/icons';
-import { Spin, Select, InputNumber, Checkbox, Button, Collapse } from 'antd';
+import { Select, InputNumber, Checkbox, Button } from 'antd';
 import styles from './ImovelListagem.module.css';
 
 const { Option } = Select;
@@ -19,6 +20,7 @@ const ImovelListagem = () => {
   const navigate = useNavigate();
   const { imoveis, loading, fetchImoveis, updateFiltros } = useImovel();
   const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  const [showContent, setShowContent] = useState(true);
 
   // Estado para os filtros
   const [filters, setFilters] = useState({
@@ -44,14 +46,25 @@ const ImovelListagem = () => {
 
   // Atualiza filtros e busca imóveis quando os parâmetros da URL mudarem
   useEffect(() => {
-    const params: Record<string, string> = {};
-    searchParams.forEach((value, key) => {
-      params[key] = value;
-    });
+    const loadImoveis = async () => {
+      setShowContent(false);
 
-    // Atualiza os filtros no contexto e busca usando os novos filtros imediatamente
-    updateFiltros(params);
-    fetchImoveis(1, params); // Passa os filtros diretamente para evitar delay
+      const params: Record<string, string> = {};
+      searchParams.forEach((value, key) => {
+        params[key] = value;
+      });
+
+      // Atualiza os filtros no contexto e busca usando os novos filtros imediatamente
+      updateFiltros(params);
+      await fetchImoveis(1, params);
+
+      // Delay mínimo para transição suave
+      setTimeout(() => {
+        setShowContent(true);
+      }, 300);
+    };
+
+    loadImoveis();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParamsString]); // Usa string como dependência para evitar loops
 
@@ -126,13 +139,6 @@ const ImovelListagem = () => {
     return 'Todos os Imóveis';
   };
 
-  if (loading) {
-    return (
-      <div className={styles.loadingContainer}>
-        <Spin size="large" tip="Carregando imóveis..." />
-      </div>
-    );
-  }
 
   // Componente de Filtros
   const FilterContent = () => (
@@ -361,9 +367,9 @@ const ImovelListagem = () => {
 
         {/* Lista de Imóveis */}
         <main className={styles.mainContent}>
-          {loading ? (
+          {loading || !showContent ? (
             <div className={styles.loadingContainer}>
-              <Spin size="large" tip="Carregando imóveis..." />
+              <PulseLoader color="#d4af37" size={15} margin={5} />
             </div>
           ) : (
             <>

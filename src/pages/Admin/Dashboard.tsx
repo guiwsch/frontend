@@ -1,11 +1,22 @@
-import { Card, Row, Col, Typography, Statistic, Spin, Table, Tag, List, Avatar } from 'antd';
-import { HomeOutlined, UserOutlined, CalendarOutlined, RiseOutlined, EyeOutlined, CheckCircleOutlined, ClockCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { Card, Row, Col, Statistic, Tag, List, Avatar, Progress } from 'antd';
+import {
+  HomeOutlined,
+  UserOutlined,
+  CalendarOutlined,
+  RiseOutlined,
+  EyeOutlined,
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  CloseCircleOutlined,
+  TrophyOutlined,
+  FireOutlined,
+  ThunderboltOutlined,
+} from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { PulseLoader } from 'react-spinners';
 import api from '../../services/api';
 import styles from './Dashboard.module.css';
-
-const { Title } = Typography;
 
 interface Stats {
   total_imoveis: number;
@@ -95,8 +106,8 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '400px' }}>
-        <Spin size="large" tip="Carregando estatísticas..." />
+      <div className={styles.loadingContainer}>
+        <PulseLoader color="#d4af37" size={15} margin={5} />
       </div>
     );
   }
@@ -126,116 +137,172 @@ const Dashboard = () => {
 
   return (
     <div className={styles.dashboardContainer}>
-      <Title level={1} className={styles.title}>Dashboard</Title>
+      {/* Header */}
+      <div className={styles.header}>
+        <div>
+          <h1 className={styles.title}>
+            <FireOutlined className={styles.titleIcon} />
+            Dashboard
+          </h1>
+          <p className={styles.subtitle}>Visão geral do seu negócio imobiliário</p>
+        </div>
+        <div className={styles.headerBadge}>
+          <TrophyOutlined /> Top Performance
+        </div>
+      </div>
 
-      {/* Cards de Estatísticas */}
-      <Row gutter={[24, 24]}>
+      {/* Cards de Estatísticas Premium */}
+      <Row gutter={[20, 20]} className={styles.statsRow}>
         <Col xs={24} sm={12} lg={6}>
-          <Card className={styles.card}>
-            <Statistic
-              title="Total de Imóveis"
-              value={stats.total_imoveis}
-              prefix={<HomeOutlined className={styles.iconGreen} />}
-              valueStyle={{ color: '#00b894', fontWeight: 700 }}
-            />
+          <Card className={`${styles.statCard} ${styles.statCardGreen}`}>
+            <div className={styles.statIcon}>
+              <HomeOutlined />
+            </div>
+            <div className={styles.statContent}>
+              <p className={styles.statLabel}>Total de Imóveis</p>
+              <h2 className={styles.statValue}>{stats.total_imoveis}</h2>
+              <div className={styles.statTrend}>
+                <ThunderboltOutlined /> +12% este mês
+              </div>
+            </div>
           </Card>
         </Col>
 
         <Col xs={24} sm={12} lg={6}>
-          <Card className={styles.card}>
-            <Statistic
-              title="Leads"
-              value={stats.total_leads}
-              prefix={<UserOutlined className={styles.iconBlue} />}
-              valueStyle={{ color: '#0984e3', fontWeight: 700 }}
-            />
+          <Card className={`${styles.statCard} ${styles.statCardBlue}`}>
+            <div className={styles.statIcon}>
+              <UserOutlined />
+            </div>
+            <div className={styles.statContent}>
+              <p className={styles.statLabel}>Leads</p>
+              <h2 className={styles.statValue}>{stats.total_leads}</h2>
+              <div className={styles.statTrend}>
+                <ThunderboltOutlined /> +28% este mês
+              </div>
+            </div>
           </Card>
         </Col>
 
         <Col xs={24} sm={12} lg={6}>
-          <Card className={styles.card}>
-            <Statistic
-              title="Visitas Agendadas"
-              value={stats.visitas_agendadas}
-              prefix={<CalendarOutlined className={styles.iconGold} />}
-              valueStyle={{ color: '#d4af37', fontWeight: 700 }}
-            />
+          <Card className={`${styles.statCard} ${styles.statCardGold}`}>
+            <div className={styles.statIcon}>
+              <CalendarOutlined />
+            </div>
+            <div className={styles.statContent}>
+              <p className={styles.statLabel}>Visitas Agendadas</p>
+              <h2 className={styles.statValue}>{stats.visitas_agendadas}</h2>
+              <div className={styles.statTrend}>
+                <ThunderboltOutlined /> +8% este mês
+              </div>
+            </div>
           </Card>
         </Col>
 
         <Col xs={24} sm={12} lg={6}>
-          <Card className={styles.card}>
-            <Statistic
-              title="Conversões"
-              value={stats.conversoes}
-              prefix={<RiseOutlined className={styles.iconOrange} />}
-              valueStyle={{ color: '#fdcb6e', fontWeight: 700 }}
-            />
+          <Card className={`${styles.statCard} ${styles.statCardOrange}`}>
+            <div className={styles.statIcon}>
+              <RiseOutlined />
+            </div>
+            <div className={styles.statContent}>
+              <p className={styles.statLabel}>Conversões</p>
+              <h2 className={styles.statValue}>{stats.conversoes}</h2>
+              <div className={styles.statTrend}>
+                <ThunderboltOutlined /> +35% este mês
+              </div>
+            </div>
           </Card>
         </Col>
       </Row>
 
-      {/* Gráficos */}
-      <Row gutter={[24, 24]} style={{ marginTop: 24 }}>
+      {/* Gráficos Modernos */}
+      <Row gutter={[20, 20]} className={styles.chartsRow}>
         <Col xs={24} lg={16}>
-          <Card className={styles.card} title="Leads e Conversões (Últimos 6 Meses)">
-            <ResponsiveContainer width="100%" height={300}>
+          <Card className={styles.chartCard}>
+            <div className={styles.cardHeader}>
+              <h3 className={styles.cardTitle}>
+                <RiseOutlined /> Leads e Conversões
+              </h3>
+              <Tag color="gold">Últimos 6 Meses</Tag>
+            </div>
+            <ResponsiveContainer width="100%" height={320}>
               <LineChart data={dadosLeadsMes}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="mes" />
-                <YAxis />
-                <Tooltip />
+                <defs>
+                  <linearGradient id="leadsGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#0984e3" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#0984e3" stopOpacity={0}/>
+                  </linearGradient>
+                  <linearGradient id="conversoesGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#00b894" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#00b894" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                <XAxis dataKey="mes" stroke="#b8b8b8" />
+                <YAxis stroke="#b8b8b8" />
+                <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid rgba(212,175,55,0.3)', borderRadius: '8px' }} />
                 <Legend />
-                <Line type="monotone" dataKey="leads" stroke="#0984e3" strokeWidth={2} name="Leads" />
-                <Line type="monotone" dataKey="conversoes" stroke="#00b894" strokeWidth={2} name="Conversões" />
+                <Line type="monotone" dataKey="leads" stroke="#0984e3" strokeWidth={3} dot={{ fill: '#0984e3', r: 5 }} name="Leads" fill="url(#leadsGradient)" />
+                <Line type="monotone" dataKey="conversoes" stroke="#00b894" strokeWidth={3} dot={{ fill: '#00b894', r: 5 }} name="Conversões" fill="url(#conversoesGradient)" />
               </LineChart>
             </ResponsiveContainer>
           </Card>
         </Col>
 
         <Col xs={24} lg={8}>
-          <Card className={styles.card} title="Imóveis por Tipo">
-            <ResponsiveContainer width="100%" height={300}>
+          <Card className={styles.chartCard}>
+            <div className={styles.cardHeader}>
+              <h3 className={styles.cardTitle}>
+                <HomeOutlined /> Imóveis por Tipo
+              </h3>
+            </div>
+            <ResponsiveContainer width="100%" height={320}>
               <PieChart>
                 <Pie
                   data={dadosImovelTipo}
                   cx="50%"
                   cy="50%"
-                  labelLine={false}
-                  label={({ tipo, quantidade }) => `${tipo}: ${quantidade}`}
-                  outerRadius={80}
+                  innerRadius={60}
+                  outerRadius={100}
                   fill="#8884d8"
                   dataKey="quantidade"
+                  label={({ tipo, quantidade }) => `${tipo}: ${quantidade}`}
                 >
                   {dadosImovelTipo.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid rgba(212,175,55,0.3)', borderRadius: '8px' }} />
               </PieChart>
             </ResponsiveContainer>
           </Card>
         </Col>
       </Row>
 
-      {/* Atividades Recentes e Imóveis em Destaque */}
-      <Row gutter={[24, 24]} style={{ marginTop: 24 }}>
+      {/* Atividades e Imóveis em Destaque */}
+      <Row gutter={[20, 20]} className={styles.listsRow}>
         <Col xs={24} lg={12}>
-          <Card className={styles.card} title="Atividades Recentes">
+          <Card className={styles.activityCard}>
+            <div className={styles.cardHeader}>
+              <h3 className={styles.cardTitle}>
+                <ClockCircleOutlined /> Atividades Recentes
+              </h3>
+            </div>
             <List
+              className={styles.activityList}
               dataSource={atividades}
               renderItem={(item) => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={getStatusIcon(item.status)}
-                    title={
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span><strong>{item.tipo}:</strong> {item.descricao}</span>
-                        {getStatusTag(item.status)}
-                      </div>
-                    }
-                    description={item.data}
-                  />
+                <List.Item className={styles.activityItem}>
+                  <div className={styles.activityIcon}>
+                    {getStatusIcon(item.status)}
+                  </div>
+                  <div className={styles.activityContent}>
+                    <div className={styles.activityHeader}>
+                      <span className={styles.activityType}>{item.tipo}:</span>
+                      <span className={styles.activityDesc}>{item.descricao}</span>
+                      {getStatusTag(item.status)}
+                    </div>
+                    <div className={styles.activityTime}>{item.data}</div>
+                  </div>
                 </List.Item>
               )}
             />
@@ -243,23 +310,32 @@ const Dashboard = () => {
         </Col>
 
         <Col xs={24} lg={12}>
-          <Card className={styles.card} title="Imóveis em Destaque">
+          <Card className={styles.propertyCard}>
+            <div className={styles.cardHeader}>
+              <h3 className={styles.cardTitle}>
+                <TrophyOutlined /> Imóveis em Destaque
+              </h3>
+            </div>
             <List
+              className={styles.propertyList}
               dataSource={imoveisDestaque}
               renderItem={(item) => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={<Avatar icon={<HomeOutlined />} style={{ backgroundColor: '#0984e3' }} />}
-                    title={<strong>{item.titulo}</strong>}
-                    description={
-                      <div>
-                        <div><Tag color="blue">{item.tipo}</Tag> R$ {item.valor.toLocaleString('pt-BR')}</div>
-                        <div style={{ marginTop: 8 }}>
-                          <EyeOutlined /> {item.visitas} visitas • <UserOutlined /> {item.leads} leads
-                        </div>
-                      </div>
-                    }
-                  />
+                <List.Item className={styles.propertyItem}>
+                  <div className={styles.propertyIcon}>
+                    <Avatar icon={<HomeOutlined />} size={48} className={styles.propertyAvatar} />
+                  </div>
+                  <div className={styles.propertyContent}>
+                    <h4 className={styles.propertyTitle}>{item.titulo}</h4>
+                    <div className={styles.propertyMeta}>
+                      <Tag color="blue">{item.tipo}</Tag>
+                      <span className={styles.propertyPrice}>R$ {item.valor.toLocaleString('pt-BR')}</span>
+                    </div>
+                    <div className={styles.propertyStats}>
+                      <span><EyeOutlined /> {item.visitas}</span>
+                      <span><UserOutlined /> {item.leads}</span>
+                      <Progress percent={Math.round((item.leads / item.visitas) * 100)} size="small" strokeColor="#d4af37" />
+                    </div>
+                  </div>
                 </List.Item>
               )}
             />
