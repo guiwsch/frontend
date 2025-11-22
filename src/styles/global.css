@@ -4,6 +4,23 @@
   box-sizing: border-box;
 }
 
+html {
+  /* Previne zoom indesejado em mobile */
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+  /* Melhora o scroll em mobile */
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+
+  /* Fixa a largura */
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -12,6 +29,42 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #ffffff;
   background-color: #0a0a0a;
+
+  /* Previne movimento horizontal */
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+
+  /* Previne pull-to-refresh e bounce em iOS */
+  overscroll-behavior-y: none;
+
+  /* Posição fixa para mobile */
+  position: relative;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+/* Previne zoom em inputs em iOS */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="search"],
+  input[type="password"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Root element - previne overflow */
+#root {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100vh;
+  position: relative;
 }
 
 button {
@@ -19,16 +72,27 @@ button {
   border: none;
   background: none;
   font-family: inherit;
+  /* Previne zoom ao tocar em botões */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 a {
   text-decoration: none;
   color: inherit;
+  /* Previne zoom ao tocar em links */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 
 img {
   max-width: 100%;
   display: block;
+  /* Previne arrastar imagens em mobile */
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 input,
@@ -127,6 +191,16 @@ select {
 
   .ant-drawer-body {
     padding: 20px !important;
+  }
+
+  /* Previne comportamentos estranhos em iOS */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Garante que nenhum elemento cause overflow horizontal */
+  * {
+    max-width: 100vw;
   }
 }
 
