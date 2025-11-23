@@ -8,16 +8,19 @@ import {
   TrophyOutlined,
   ThunderboltOutlined
 } from '@ant-design/icons';
+import { useConfig } from '../../hooks/useConfig';
 import styles from "./Sobre.module.css";
 
 const Sobre = () => {
+  const { config } = useConfig();
+
   return (
     <div className={styles.pageWrapper}>
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
-            Sobre a <span className={styles.logoAccent}>ImobiLux</span>
+            Sobre a <span className={styles.logoAccent}>{config.nome_empresa}</span>
           </h1>
           <p className={styles.heroSubtitle}>
             Transformando sonhos em endereços desde 2020
@@ -35,10 +38,10 @@ const Sobre = () => {
             <div className={styles.storyContent}>
               <h2 className={styles.sectionTitle}>Nossa História</h2>
               <p className={styles.text}>
-                A ImobiLux nasceu com o propósito de revolucionar o mercado imobiliário, oferecendo
+                {config.sobre || `A ${config.nome_empresa} nasceu com o propósito de revolucionar o mercado imobiliário, oferecendo
                 as melhores opções de imóveis com transparência, segurança e atendimento personalizado.
                 Com anos de experiência e um time apaixonado pelo que faz, nos tornamos referência
-                em encontrar o imóvel perfeito para cada cliente.
+                em encontrar o imóvel perfeito para cada cliente.`}
               </p>
             </div>
           </div>

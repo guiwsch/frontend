@@ -1,7 +1,7 @@
 import { createContext, useState, useContext, useEffect, ReactNode } from "react";
 import { jwtDecode } from "jwt-decode";
 import api from "../services/api";
-import { DecodedToken, LoginResponse, AuthContextType, RegisterData, RegisterResponse } from "../types/auth";
+import { DecodedToken, LoginResponse, AuthContextType, RegisterData, RegisterResponse, UserProfile } from "../types/auth";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -19,6 +19,7 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<DecodedToken | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -126,14 +127,38 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return !!user;
   };
 
+  const fetchUserProfile = async (): Promise<void> => {
+    try {
+      const response = await api.get<UserProfile>('/api/user/');
+      setUserProfile(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar perfil do usuário:', error);
+      throw error;
+    }
+  };
+
+  const updateUserProfile = async (data: Partial<UserProfile>): Promise<boolean> => {
+    try {
+      const response = await api.put<UserProfile>('/api/user/', data);
+      setUserProfile(response.data);
+      return true;
+    } catch (error) {
+      console.error('Erro ao atualizar perfil do usuário:', error);
+      return false;
+    }
+  };
+
   const value: AuthContextType = {
     user,
+    userProfile,
     login,
     register,
     logout,
     refreshToken,
     isAuthenticated,
     loading,
+    fetchUserProfile,
+    updateUserProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

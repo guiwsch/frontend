@@ -51,7 +51,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
@@ -73,21 +74,27 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(212, 175, 55, 0.2);
   border-radius: 12px;
-  padding: 0.5rem;
+  padding: 0.75rem;
   margin-bottom: 2rem;
+}
+
+.tabs :global(.ant-tabs-nav-list) {
+  gap: 0.5rem;
 }
 
 .tabs :global(.ant-tabs-tab) {
   color: rgba(255, 255, 255, 0.6) !important;
-  border-radius: 8px;
-  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  padding: 1rem 2rem !important;
+  margin: 0 !important;
   font-weight: 600;
+  font-size: 1rem;
   transition: all 0.3s ease;
 }
 
 .tabs :global(.ant-tabs-tab:hover) {
   color: #d4af37 !important;
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(212, 175, 55, 0.1) !important;
 }
 
 .tabs :global(.ant-tabs-tab-active) {
@@ -95,9 +102,27 @@
   color: #d4af37 !important;
 }
 
+.tabs :global(.ant-tabs-tab-active .ant-tabs-tab-btn) {
+  color: #d4af37 !important;
+}
+
 .tabs :global(.ant-tabs-ink-bar) {
-  background: #d4af37;
-  height: 3px;
+  background: linear-gradient(90deg, #d4af37, #ffd700) !important;
+  height: 3px !important;
+}
+
+/* Remove qualquer cor azul padrão do Ant Design */
+.tabs :global(.ant-tabs-tab-btn:focus),
+.tabs :global(.ant-tabs-tab-btn:active) {
+  color: #d4af37 !important;
+}
+
+.tabs :global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
+  color: #d4af37 !important;
+}
+
+.tabs :global(.ant-tabs-content) {
+  margin-top: 1.5rem;
 }
 
 /* Tab Cards */
@@ -122,17 +147,17 @@
 }
 
 .tabCard :global(.ant-card-body) {
-  padding: 2rem;
+  padding: 2.5rem;
 }
 
 /* Section Title */
 .sectionTitle {
-  font-size: 1.375rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #d4af37 !important;
   margin-top: 0 !important;
-  margin-bottom: 1.5rem !important;
-  padding-bottom: 0.75rem;
+  margin-bottom: 2rem !important;
+  padding-bottom: 1rem;
   border-bottom: 2px solid rgba(212, 175, 55, 0.3);
   display: flex;
   align-items: center;
@@ -140,56 +165,92 @@
 }
 
 /* Form Items */
+.tabCard :global(.ant-form-item) {
+  margin-bottom: 1.75rem;
+}
+
+.tabCard :global(.ant-form-item-label) {
+  padding-bottom: 0.5rem;
+}
+
 .tabCard :global(.ant-form-item-label > label) {
   color: #ffffff !important;
   font-weight: 600;
+  font-size: 0.9375rem;
 }
 
 .tabCard :global(.ant-input),
 .tabCard :global(.ant-input-number),
 .tabCard :global(.ant-select-selector),
 .tabCard :global(.ant-picker) {
-  background: rgba(15, 15, 15, 0.6) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(20, 20, 20, 0.8) !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
   color: #ffffff !important;
   border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
 .tabCard :global(.ant-input::placeholder),
 .tabCard :global(.ant-input-number-input::placeholder) {
-  color: rgba(255, 255, 255, 0.4) !important;
+  color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .tabCard :global(.ant-input:hover),
 .tabCard :global(.ant-input-number:hover),
 .tabCard :global(.ant-select-selector:hover),
 .tabCard :global(.ant-picker:hover) {
-  border-color: rgba(212, 175, 55, 0.4) !important;
+  border-color: rgba(212, 175, 55, 0.5) !important;
+  background: rgba(25, 25, 25, 0.9) !important;
 }
 
 .tabCard :global(.ant-input:focus),
 .tabCard :global(.ant-input-number:focus),
 .tabCard :global(.ant-select-focused .ant-select-selector),
 .tabCard :global(.ant-picker-focused) {
-  border-color: rgba(212, 175, 55, 0.6) !important;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1) !important;
+  border-color: #d4af37 !important;
+  background: rgba(30, 30, 30, 0.95) !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15) !important;
 }
 
 .tabCard :global(.ant-input-password),
 .tabCard :global(.ant-input-affix-wrapper) {
-  background: rgba(15, 15, 15, 0.6) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(20, 20, 20, 0.8) !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+  transition: all 0.3s ease;
 }
 
 .tabCard :global(.ant-input-password:hover),
 .tabCard :global(.ant-input-affix-wrapper:hover) {
-  border-color: rgba(212, 175, 55, 0.4) !important;
+  border-color: rgba(212, 175, 55, 0.5) !important;
+  background: rgba(25, 25, 25, 0.9) !important;
 }
 
 .tabCard :global(.ant-input-password:focus),
 .tabCard :global(.ant-input-affix-wrapper-focused) {
-  border-color: rgba(212, 175, 55, 0.6) !important;
-  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.1) !important;
+  border-color: #d4af37 !important;
+  background: rgba(30, 30, 30, 0.95) !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15) !important;
+}
+
+/* Ícones dos inputs */
+.tabCard :global(.ant-input-prefix),
+.tabCard :global(.ant-input-suffix) {
+  color: rgba(212, 175, 55, 0.6) !important;
+}
+
+.tabCard :global(.ant-input-affix-wrapper:hover .ant-input-prefix),
+.tabCard :global(.ant-input-affix-wrapper:hover .ant-input-suffix) {
+  color: rgba(212, 175, 55, 0.8) !important;
+}
+
+.tabCard :global(.ant-input-affix-wrapper-focused .ant-input-prefix),
+.tabCard :global(.ant-input-affix-wrapper-focused .ant-input-suffix) {
+  color: #d4af37 !important;
+}
+
+/* TextArea */
+.tabCard :global(.ant-input-textarea-show-count::after) {
+  color: rgba(255, 255, 255, 0.4) !important;
 }
 
 /* Profile Header */
@@ -253,7 +314,11 @@
   width: 60px;
   height: 60px;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.05));
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.2),
+    rgba(212, 175, 55, 0.05)
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -361,6 +426,11 @@
   .title {
     font-size: 2rem;
   }
+
+  .tabs :global(.ant-tabs-tab) {
+    padding: 0.875rem 1.5rem !important;
+    font-size: 0.9375rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -374,6 +444,30 @@
 
   .subtitle {
     font-size: 1rem;
+  }
+
+  .tabs :global(.ant-tabs-nav) {
+    padding: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tabs :global(.ant-tabs-nav-list) {
+    gap: 0.375rem;
+  }
+
+  .tabs :global(.ant-tabs-tab) {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.875rem;
+  }
+
+  .tabs :global(.ant-tabs-tab span) {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .tabs :global(.ant-tabs-content) {
+    margin-top: 1rem;
   }
 
   .tabCard :global(.ant-card-body) {
@@ -411,6 +505,35 @@
 
   .subtitle {
     font-size: 0.875rem;
+  }
+
+  .tabs :global(.ant-tabs-nav) {
+    padding: 0.375rem;
+    margin-bottom: 1rem;
+  }
+
+  .tabs :global(.ant-tabs-nav-list) {
+    gap: 0.25rem;
+    width: 100%;
+  }
+
+  .tabs :global(.ant-tabs-tab) {
+    padding: 0.625rem 0.75rem !important;
+    font-size: 0.8125rem;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .tabs :global(.ant-tabs-tab span) {
+    gap: 0.375rem;
+  }
+
+  .tabs :global(.ant-tabs-tab .anticon) {
+    font-size: 1rem;
+  }
+
+  .tabs :global(.ant-tabs-content) {
+    margin-top: 0.75rem;
   }
 
   .tabCard :global(.ant-card-body) {

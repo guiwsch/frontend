@@ -6,6 +6,13 @@ export interface DecodedToken {
   [key: string]: any;
 }
 
+export interface UserProfile {
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+}
+
 export interface LoginResponse {
   success: boolean;
   error?: string;
@@ -24,10 +31,13 @@ export interface RegisterResponse {
 
 export interface AuthContextType {
   user: DecodedToken | null;
+  userProfile: UserProfile | null;
   login: (username: string, password: string) => Promise<LoginResponse>;
   register: (data: RegisterData) => Promise<RegisterResponse>;
   logout: () => void;
   refreshToken: () => Promise<string>;
   isAuthenticated: () => boolean;
   loading: boolean;
+  fetchUserProfile: () => Promise<void>;
+  updateUserProfile: (data: Partial<UserProfile>) => Promise<boolean>;
 }

@@ -50,13 +50,12 @@ interface PasswordData {
 
 const Configuracoes = () => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, userProfile, fetchUserProfile, updateUserProfile } = useAuth();
   const [configForm] = Form.useForm<ConfigValues>();
   const [userForm] = Form.useForm<UserData>();
   const [passwordForm] = Form.useForm<PasswordData>();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [userData, setUserData] = useState<UserData | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -77,9 +76,10 @@ const Configuracoes = () => {
 
       // Carregar dados do usuário
       try {
-        const userResponse = await api.get('/api/auth/user/');
-        setUserData(userResponse.data);
-        userForm.setFieldsValue(userResponse.data);
+        await fetchUserProfile();
+        if (userProfile) {
+          userForm.setFieldsValue(userProfile);
+        }
       } catch (error) {
         console.error('Erro ao carregar dados do usuário:', error);
       }
@@ -90,6 +90,13 @@ const Configuracoes = () => {
       setLoading(false);
     }
   };
+
+  // Atualiza o formulário quando userProfile mudar
+  useEffect(() => {
+    if (userProfile) {
+      userForm.setFieldsValue(userProfile);
+    }
+  }, [userProfile, userForm]);
 
   const onFinishConfig = async (values: ConfigValues) => {
     setSaving(true);
@@ -107,9 +114,12 @@ const Configuracoes = () => {
   const onFinishUser = async (values: UserData) => {
     setSaving(true);
     try {
-      await api.put('/api/auth/user/', values);
-      setUserData(values);
-      message.success('Dados do usuário atualizados com sucesso!');
+      const success = await updateUserProfile(values);
+      if (success) {
+        message.success('Dados do usuário atualizados com sucesso!');
+      } else {
+        message.error('Erro ao atualizar dados do usuário');
+      }
     } catch (error) {
       console.error('Erro ao atualizar usuário:', error);
       message.error('Erro ao atualizar dados do usuário');
@@ -126,7 +136,7 @@ const Configuracoes = () => {
 
     setSaving(true);
     try {
-      await api.post('/api/auth/change-password/', {
+      await api.post('/api/change-password/', {
         old_password: values.current_password,
         new_password: values.new_password,
       });
@@ -298,9 +308,9 @@ const Configuracoes = () => {
                 <Avatar size={80} icon={<UserOutlined />} className={styles.avatar} />
                 <div className={styles.profileInfo}>
                   <Title level={4} className={styles.profileName}>
-                    {userData?.first_name} {userData?.last_name}
+                    {userProfile?.first_name} {userProfile?.last_name}
                   </Title>
-                  <Text className={styles.profileEmail}>@{userData?.username}</Text>
+                  <Text className={styles.profileEmail}>@{userProfile?.username}</Text>
                 </div>
               </div>
 

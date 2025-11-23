@@ -7,6 +7,7 @@ import {
   EnvironmentOutlined,
 } from "@ant-design/icons";
 import { Input, Button } from "antd";
+import { useConfig } from "../../hooks/useConfig";
 import styles from "./Contato.module.css";
 
 const { TextArea } = Input;
@@ -19,6 +20,7 @@ interface FormData {
 }
 
 const Contato = () => {
+  const { config } = useConfig();
   const [formData, setFormData] = useState<FormData>({
     nome: "",
     email: "",
@@ -60,21 +62,21 @@ const Contato = () => {
             <PhoneOutlined className={styles.infoIcon} />
             <div className={styles.infoContent}>
               <h3>Telefone</h3>
-              <p>(11) 1234-5678</p>
+              <p>{config.telefone}</p>
             </div>
           </div>
           <div className={styles.infoItem}>
             <MailOutlined className={styles.infoIcon} />
             <div className={styles.infoContent}>
               <h3>E-mail</h3>
-              <p>contato@imobilux.com.br</p>
+              <p>{config.email}</p>
             </div>
           </div>
           <div className={styles.infoItem}>
             <EnvironmentOutlined className={styles.infoIcon} />
             <div className={styles.infoContent}>
               <h3>Endereço</h3>
-              <p>Rua Exemplo, 123 - São Paulo, SP</p>
+              <p>{config.endereco}</p>
             </div>
           </div>
         </div>

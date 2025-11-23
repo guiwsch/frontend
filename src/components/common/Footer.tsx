@@ -7,16 +7,19 @@ import {
   PhoneOutlined,
   EnvironmentOutlined,
 } from "@ant-design/icons";
+import { useConfig } from "../../hooks/useConfig";
 import styles from "./Footer.module.css";
 
 const Footer = () => {
+  const { config } = useConfig();
+
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
         <div className={styles.footerSection}>
-          <h3>ImobiLux</h3>
+          <h3>{config.nome_empresa}</h3>
           <p>
-            Encontre o lar dos seus sonhos com a melhor imobiliária da região.
+            {config.sobre || "Encontre o lar dos seus sonhos com a melhor imobiliária da região."}
           </p>
           <div className={styles.socialLinks}>
             <a
@@ -57,13 +60,13 @@ const Footer = () => {
         <div className={styles.footerSection}>
           <h3>Contato</h3>
           <p>
-            <PhoneOutlined /> (11) 1234-5678
+            <PhoneOutlined /> {config.telefone}
           </p>
           <p>
-            <MailOutlined /> contato@imobilux.com.br
+            <MailOutlined /> {config.email}
           </p>
           <p>
-            <EnvironmentOutlined /> Rua Exemplo, 123 - São Paulo, SP
+            <EnvironmentOutlined /> {config.endereco}
           </p>
         </div>
 
@@ -77,7 +80,7 @@ const Footer = () => {
 
       <div className={styles.footerBottom}>
         <p>
-          &copy; {new Date().getFullYear()} ImobiLux. Todos os direitos
+          &copy; {new Date().getFullYear()} {config.nome_empresa}. Todos os direitos
           reservados.
         </p>
       </div>
