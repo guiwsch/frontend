@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Card } from 'antd';
-import { UserOutlined, LockOutlined, SafetyOutlined, RocketOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  LockOutlined,
+  SafetyOutlined,
+  RocketOutlined,
+} from '@ant-design/icons';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 import { PulseLoader } from 'react-spinners';
@@ -34,11 +39,15 @@ const Login = () => {
       {/* Animated Background Particles */}
       <div className={styles.particles}>
         {[...Array(20)].map((_, i) => (
-          <div key={i} className={styles.particle} style={{
-            left: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 3}s`,
-            animationDuration: `${3 + Math.random() * 4}s`
-          }} />
+          <div
+            key={i}
+            className={styles.particle}
+            style={{
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${3 + Math.random() * 4}s`,
+            }}
+          />
         ))}
       </div>
 
@@ -74,7 +83,9 @@ const Login = () => {
           <Card className={styles.loginCard}>
             <div className={styles.cardHeader}>
               <h2 className={styles.formTitle}>Acesso Administrativo</h2>
-              <p className={styles.formSubtitle}>Entre com suas credenciais para continuar</p>
+              <p className={styles.formSubtitle}>
+                Entre com suas credenciais para continuar
+              </p>
             </div>
 
             <Form
@@ -87,7 +98,9 @@ const Login = () => {
             >
               <Form.Item
                 name="username"
-                rules={[{ required: true, message: 'Por favor, insira seu usuário' }]}
+                rules={[
+                  { required: true, message: 'Por favor, insira seu usuário' },
+                ]}
               >
                 <Input
                   prefix={<UserOutlined className={styles.inputIcon} />}
@@ -101,7 +114,9 @@ const Login = () => {
 
               <Form.Item
                 name="password"
-                rules={[{ required: true, message: 'Por favor, insira sua senha' }]}
+                rules={[
+                  { required: true, message: 'Por favor, insira sua senha' },
+                ]}
               >
                 <Input.Password
                   prefix={<LockOutlined className={styles.inputIcon} />}
@@ -129,7 +144,7 @@ const Login = () => {
                 </Button>
               </Form.Item>
 
-              <div className={styles.registerLink}>
+              {/* <div className={styles.registerLink}>
                 <span>Não tem uma conta? </span>
                 <a href="/register" onClick={(e) => {
                   e.preventDefault();
@@ -137,7 +152,7 @@ const Login = () => {
                 }}>
                   Criar conta
                 </a>
-              </div>
+              </div> */}
             </Form>
 
             <div className={styles.footer}>
