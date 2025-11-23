@@ -65,8 +65,16 @@ const ImovelDetalhes = () => {
 
   const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
+  // Helper para verificar se a URL é completa (http/https)
+  const getImageUrl = (url: string) => {
+    if (!url) return '';
+    return url.startsWith('http://') || url.startsWith('https://')
+      ? url
+      : `${baseURL}${url}`;
+  };
+
   const images =
-    imovel.imagens?.map((img) => `${baseURL}${img.imagem_url}`) || [];
+    imovel.imagens?.map((img) => getImageUrl(img.imagem_url)) || [];
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('pt-BR', {

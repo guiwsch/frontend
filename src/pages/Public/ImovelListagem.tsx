@@ -22,6 +22,14 @@ const ImovelListagem = () => {
   const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
   const [showContent, setShowContent] = useState(true);
 
+  // Helper para verificar se a URL é completa (http/https)
+  const getImageUrl = (url: string) => {
+    if (!url) return '';
+    return url.startsWith('http://') || url.startsWith('https://')
+      ? url
+      : `${baseURL}${url}`;
+  };
+
   // Estado para os filtros
   const [filters, setFilters] = useState({
     tipo_imovel: searchParams.get('tipo_imovel') || '',
@@ -385,7 +393,7 @@ const ImovelListagem = () => {
                       style={{
                         backgroundImage: `url(${
                           imovel.imagem_principal
-                            ? `${baseURL}${imovel.imagem_principal}`
+                            ? getImageUrl(imovel.imagem_principal)
                             : 'https://via.placeholder.com/400x300'
                         })`,
                       }}

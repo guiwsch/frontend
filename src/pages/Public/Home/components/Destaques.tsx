@@ -12,6 +12,14 @@ const Destaques = () => {
   const { destaques, loading } = useImovel();
   const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
+  // Helper para verificar se a URL é completa (http/https)
+  const getImageUrl = (url: string) => {
+    if (!url) return '';
+    return url.startsWith('http://') || url.startsWith('https://')
+      ? url
+      : `${baseURL}${url}`;
+  };
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
@@ -87,7 +95,7 @@ const Destaques = () => {
                   style={{
                     backgroundImage: `url(${
                       imovel.imagem_principal
-                        ? `${baseURL}${imovel.imagem_principal}`
+                        ? getImageUrl(imovel.imagem_principal)
                         : "https://via.placeholder.com/400x300"
                     })`,
                   }}
