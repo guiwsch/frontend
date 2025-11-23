@@ -1,4 +1,14 @@
-import { Card, Row, Col, Button, Space, Modal, message, Tag, Avatar } from 'antd';
+import {
+  Card,
+  Row,
+  Col,
+  Button,
+  Space,
+  Modal,
+  message,
+  Tag,
+  Avatar,
+} from 'antd';
 import {
   PlusOutlined,
   EditOutlined,
@@ -31,8 +41,16 @@ interface Imovel {
 
 const ImoveisAdmin = () => {
   const navigate = useNavigate();
-  const { imoveis, loading, fetchImoveis, deleteImovel, toggleDestaque } = useImovel();
+  const { imoveis, loading, fetchImoveis, deleteImovel, toggleDestaque } =
+    useImovel();
   const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
+  const getImageUrl = (url: string) => {
+    if (!url) return '';
+    return url.startsWith('http://') || url.startsWith('https://')
+      ? url
+      : `${baseURL}${url}`;
+  };
 
   useEffect(() => {
     fetchImoveis();
@@ -67,9 +85,9 @@ const ImoveisAdmin = () => {
   // Calcular estatísticas
   const stats = {
     total: imoveis.length,
-    destaques: imoveis.filter(i => i.destaque).length,
-    venda: imoveis.filter(i => i.tipo_negocio === 'venda').length,
-    aluguel: imoveis.filter(i => i.tipo_negocio === 'aluguel').length,
+    destaques: imoveis.filter((i) => i.destaque).length,
+    venda: imoveis.filter((i) => i.tipo_negocio === 'venda').length,
+    aluguel: imoveis.filter((i) => i.tipo_negocio === 'aluguel').length,
   };
 
   return (
@@ -173,7 +191,10 @@ const ImoveisAdmin = () => {
 
                   <div className={styles.imovelImage}>
                     {imovel.imagem_principal ? (
-                      <img src={`${baseURL}${imovel.imagem_principal}`} alt={imovel.titulo} />
+                      <img
+                        src={getImageUrl(imovel.imagem_principal)}
+                        alt={imovel.titulo}
+                      />
                     ) : (
                       <div className={styles.placeholderImage}>
                         <HomeOutlined />
@@ -191,18 +212,26 @@ const ImoveisAdmin = () => {
                       <div className={styles.infoRow}>
                         <span className={styles.infoLabel}>Tipo:</span>
                         <Tag color="blue">
-                          {imovel.tipo_imovel.charAt(0).toUpperCase() + imovel.tipo_imovel.slice(1)}
+                          {imovel.tipo_imovel.charAt(0).toUpperCase() +
+                            imovel.tipo_imovel.slice(1)}
                         </Tag>
                       </div>
                       <div className={styles.infoRow}>
                         <span className={styles.infoLabel}>Negócio:</span>
-                        <Tag color={imovel.tipo_negocio === 'venda' ? 'green' : 'purple'}>
-                          {imovel.tipo_negocio.charAt(0).toUpperCase() + imovel.tipo_negocio.slice(1)}
+                        <Tag
+                          color={
+                            imovel.tipo_negocio === 'venda' ? 'green' : 'purple'
+                          }
+                        >
+                          {imovel.tipo_negocio.charAt(0).toUpperCase() +
+                            imovel.tipo_negocio.slice(1)}
                         </Tag>
                       </div>
                       <div className={styles.infoRow}>
                         <span className={styles.infoLabel}>Cidade:</span>
-                        <span className={styles.infoValue}>{imovel.cidade}</span>
+                        <span className={styles.infoValue}>
+                          {imovel.cidade}
+                        </span>
                       </div>
                     </div>
 
@@ -227,15 +256,23 @@ const ImoveisAdmin = () => {
                       </Button>
                       <Button
                         icon={<EditOutlined />}
-                        onClick={() => navigate(`/admin/imoveis/editar/${imovel.id}`)}
+                        onClick={() =>
+                          navigate(`/admin/imoveis/editar/${imovel.id}`)
+                        }
                         className={styles.editButton}
                       >
                         Editar
                       </Button>
                       <Button
-                        icon={imovel.destaque ? <StarFilled /> : <StarOutlined />}
+                        icon={
+                          imovel.destaque ? <StarFilled /> : <StarOutlined />
+                        }
                         onClick={() => handleToggleDestaque(imovel.id)}
-                        className={imovel.destaque ? styles.destaqueButtonActive : styles.destaqueButton}
+                        className={
+                          imovel.destaque
+                            ? styles.destaqueButtonActive
+                            : styles.destaqueButton
+                        }
                       >
                         {imovel.destaque ? 'Destacado' : 'Destacar'}
                       </Button>
