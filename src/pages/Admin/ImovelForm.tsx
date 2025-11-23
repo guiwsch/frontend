@@ -6,6 +6,7 @@ import { useImovel } from '../../context/ImovelContext';
 import api from '../../services/api';
 import styles from './ImovelForm.module.css';
 import type { UploadFile } from 'antd/es/upload/interface';
+import type { Imovel } from '../../types/imovel';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -86,6 +87,19 @@ const ImovelForm = () => {
           cep: imovel.cep,
         },
       });
+
+      // Carregar imagens existentes
+      if (imovel.imagens && imovel.imagens.length > 0) {
+        const existingImages: UploadFile[] = imovel.imagens
+          .sort((a: any, b: any) => a.ordem - b.ordem)
+          .map((img: any, index: number) => ({
+            uid: `existing-${img.id}`,
+            name: `Imagem ${index + 1}${img.principal ? ' (Principal)' : ''}`,
+            status: 'done' as const,
+            url: img.imagem_url,
+          }));
+        setFileList(existingImages);
+      }
     } catch (error) {
       console.error('Erro ao carregar imóvel:', error);
       message.error('Erro ao carregar dados do imóvel');
@@ -96,12 +110,15 @@ const ImovelForm = () => {
   };
 
   const uploadImages = async (imovelId: number) => {
-    for (let i = 0; i < fileList.length; i++) {
-      const file = fileList[i];
+    // Filtrar apenas novas imagens (que têm originFileObj)
+    const newImages = fileList.filter(file => file.originFileObj);
+
+    for (let i = 0; i < newImages.length; i++) {
+      const file = newImages[i];
       const formData = new FormData();
       formData.append('file', file.originFileObj as Blob);
-      formData.append('ordem', i.toString());
-      formData.append('principal', (i === 0).toString());
+      formData.append('ordem', (fileList.indexOf(file)).toString());
+      formData.append('principal', (fileList.indexOf(file) === 0).toString());
 
       try {
         await api.post(`/api/imoveis/${imovelId}/upload_imagem/`, formData, {
@@ -121,15 +138,15 @@ const ImovelForm = () => {
     setLoading(true);
     try {
       // Mapear os campos do formulário para o formato esperado pelo backend
-      const imovelData = {
+      const imovelData: Partial<Imovel> = {
         titulo: values.titulo,
         descricao: values.descricao,
-        tipo_imovel: values.tipo,
-        tipo_negocio: values.status,
+        tipo_imovel: values.tipo as 'casa' | 'apartamento' | 'terreno' | 'comercial',
+        tipo_negocio: (values.status === 'vendido' ? 'venda' : values.status === 'alugado' ? 'aluguel' : values.status) as 'venda' | 'aluguel',
         preco_venda: values.status === 'venda' || values.status === 'vendido' ? values.preco : 0,
         valor_aluguel: values.status === 'aluguel' || values.status === 'alugado' ? values.preco : 0,
         area_total: values.area,
-        area_construida: values.area, // Assumindo que são iguais por enquanto
+        area_construida: values.area,
         quartos: values.quartos,
         banheiros: values.banheiros,
         vagas_garagem: values.vagas,
@@ -155,10 +172,11 @@ const ImovelForm = () => {
         await api.put(`/api/imoveis/${id}/`, imovelData);
         imovelId = parseInt(id);
 
-        // Fazer upload das imagens se houver
-        if (fileList.length > 0) {
+        // Fazer upload apenas das novas imagens
+        const newImages = fileList.filter(file => file.originFileObj);
+        if (newImages.length > 0) {
           await uploadImages(imovelId);
-          message.success('Imóvel atualizado com sucesso e imagens enviadas!');
+          message.success('Imóvel atualizado com sucesso e novas imagens enviadas!');
         } else {
           message.success('Imóvel atualizado com sucesso!');
         }
@@ -281,7 +299,7 @@ const ImovelForm = () => {
                   style={{ width: '100%' }}
                   min={0}
                   formatter={value => `R$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  parser={value => value!.replace(/R\$\s?|(,*)/g, '')}
+                  parser={(value) => parseFloat(value!.replace(/R\$\s?|(,*)/g, '')) as unknown as 0}
                 />
               </Form.Item>
             </Col>

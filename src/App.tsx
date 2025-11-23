@@ -9,6 +9,7 @@ import "antd/dist/reset.css";
 import { AuthProvider } from "./context/AuthContext";
 import { ImovelProvider } from "./context/ImovelContext";
 import AppRoutes from "./routes";
+import ScrollToTop from "./components/ScrollToTop";
 import "./styles/global.css";
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
       }}
     >
       <Router>
+        <ScrollToTop />
         <AuthProvider>
           <ImovelProvider>
             <AppRoutes />

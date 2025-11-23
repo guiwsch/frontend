@@ -1,9 +1,9 @@
-import { useState, FormEvent, ChangeEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import { SearchOutlined } from "@ant-design/icons";
-import { Input, Select, Button } from "antd";
-import { motion } from "framer-motion";
-import styles from "./HeroSection.module.css";
+import { useState, FormEvent, ChangeEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { SearchOutlined } from '@ant-design/icons';
+import { Input, Select, Button } from 'antd';
+import { motion } from 'framer-motion';
+import styles from './HeroSection.module.css';
 
 const { Option } = Select;
 
@@ -17,10 +17,10 @@ interface SearchParams {
 const HeroSection = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState<SearchParams>({
-    tipo_negocio: "",
-    tipo_imovel: "",
-    cidade: "",
-    preco_max: "",
+    tipo_negocio: '',
+    tipo_imovel: '',
+    cidade: '',
+    preco_max: '',
   });
 
   const handleSearch = (e: FormEvent) => {
@@ -57,7 +57,7 @@ const HeroSection = () => {
           className={styles.title}
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
         >
           Encontre o Lar dos Seus Sonhos
         </motion.h1>
@@ -65,7 +65,7 @@ const HeroSection = () => {
           className={styles.subtitle}
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
         >
           As melhores opções de imóveis para compra e aluguel
         </motion.p>
@@ -74,14 +74,14 @@ const HeroSection = () => {
           className={styles.searchBox}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
         >
           <Select
             placeholder="Comprar ou Alugar"
             value={searchParams.tipo_negocio || undefined}
-            onChange={(value) => handleSelectChange(value, "tipo_negocio")}
+            onChange={(value) => handleSelectChange(value, 'tipo_negocio')}
             size="large"
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
           >
             <Option value="venda">Comprar</Option>
             <Option value="aluguel">Alugar</Option>
@@ -90,23 +90,23 @@ const HeroSection = () => {
           <Select
             placeholder="Tipo de Imóvel"
             value={searchParams.tipo_imovel || undefined}
-            onChange={(value) => handleSelectChange(value, "tipo_imovel")}
+            onChange={(value) => handleSelectChange(value, 'tipo_imovel')}
             size="large"
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
           >
             <Option value="casa">Casa</Option>
             <Option value="apartamento">Apartamento</Option>
-            <Option value="terreno">Terreno</Option>
-            <Option value="comercial">Comercial</Option>
+            {/* <Option value="terreno">Terreno</Option>
+            <Option value="comercial">Comercial</Option> */}
           </Select>
 
-          <Input
+          {/* <Input
             name="cidade"
             placeholder="Digite a cidade"
             value={searchParams.cidade}
             onChange={handleInputChange}
             size="large"
-          />
+          /> */}
 
           <Input
             name="preco_max"
@@ -122,7 +122,7 @@ const HeroSection = () => {
             icon={<SearchOutlined />}
             onClick={handleSearch}
             size="large"
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
           >
             Buscar
           </Button>

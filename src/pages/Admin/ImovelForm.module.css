@@ -71,16 +71,20 @@
 
 /* Section Title */
 .sectionTitle {
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: #d4af37;
-  margin-top: 2rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.375rem !important;
+  font-weight: 700 !important;
+  color: #d4af37 !important;
+  margin-top: 2rem !important;
+  margin-bottom: 1.5rem !important;
   padding-bottom: 0.75rem;
   border-bottom: 2px solid rgba(212, 175, 55, 0.3);
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
+
+.formCard :global(.ant-typography h3.sectionTitle) {
+  color: #d4af37 !important;
 }
 
 .sectionTitle::before {
@@ -233,6 +237,31 @@
 /* Form Item Extra Text */
 .formCard :global(.ant-form-item-extra) {
   color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Upload Text Colors */
+.formCard :global(.ant-upload-text),
+.formCard :global(.ant-upload-hint),
+.formCard :global(.ant-upload-list-item-name) {
+  color: #ffffff !important;
+}
+
+.formCard :global(.ant-upload .anticon) {
+  color: #d4af37 !important;
+}
+
+/* Garantir que todos os textos dos inputs sejam brancos */
+.formCard :global(.ant-input-number-input) {
+  color: #ffffff !important;
+}
+
+.formCard :global(.ant-select-item-option-content) {
+  color: #000000 !important;
+}
+
+/* TextArea específico */
+.formCard :global(textarea.ant-input) {
+  color: #ffffff !important;
 }
 
 /* Responsive */
